@@ -1,42 +1,94 @@
 package com.intern.app.ecommerce.controller;
 
 import com.intern.app.ecommerce.model.Product;
-import com.intern.app.ecommerce.repository.ProductRepository;
+import com.intern.app.ecommerce.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
+
 
 
 @RestController
 @RequestMapping("/api/product")
+@Validated
+
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    //com.intern.app.ecommerce
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
 
-    @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        return productRepository.save(product);
-    }
+
 
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable long id) {
-
-        return productRepository.findById(id).orElse(null);
+        return productService.getProductById(id);
     }
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getProductImage(@PathVariable long id) {
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "image/png")
+                .body(productService.getProductImage(id));
+    }
+
+
+
+
+    @PostMapping(consumes = "multipart/form-data")
+    public Product addProduct(
+
+            @RequestParam
+            @NotBlank String name,
+
+            @RequestParam
+            @Min(0) Integer quantity,
+
+            @RequestParam
+            @Min(0)
+            @Max(100) Long discount,
+
+            @RequestParam
+            @Positive long originalPrice,
+
+            @RequestParam
+            @PositiveOrZero long discountPrice,
+
+            @RequestParam
+            @Positive Long size,
+
+            @RequestParam
+            @Size(max = 500) String description,
+
+            @RequestParam
+            @NotNull MultipartFile image
+
+    ) throws Exception {
+        return productService.saveProduct(name,quantity,discount,originalPrice,discountPrice,size,description,image);
+    }
+
 
 
     @PutMapping("/{id}")
     public Product updateProduct(
             @PathVariable long id,
-            @RequestBody Product product) {
+            @RequestBody Product product
+    ) {
+        return productService.updateProduct(id, product);
+    }
 
-        product.setId(id);
-        return productRepository.save(product);
+    @PutMapping(value = "/{id}/image", consumes = "multipart/form-data")
+    public Product updateProductImage(
+            @PathVariable long id,
+            @RequestParam MultipartFile image
+    ) throws Exception {return productService.updateImage(id, image);
+
     }
 
 
@@ -46,45 +98,15 @@ public class ProductController {
             @PathVariable long id,
             @RequestBody Product product)
     {
-        Product existing = productRepository.findById(id).orElse(null);
-
-        if(existing == null){
-            return null;
-        }
-
-
-        if (product.getName() != null)
-            existing.setName(product.getName());
-        if (product.getQuantity() != 0)
-            existing.setQuantity(product.getQuantity());
-        if (product.getDiscount() != 0)
-            existing.setDiscount(product.getDiscount());
-        if (product.getOriginalPrice() != 0)
-            existing.setOriginalPrice(product.getOriginalPrice());
-        if (product.getDiscountPrice() != 0)
-            existing.setDiscountPrice(product.getDiscountPrice());
-        if (product.getSize() != 0)
-            existing.setSize(product.getSize());
-        if (product.getDescription() != null)
-            existing.setDescription(product.getDescription());
-
-        return productRepository.save(existing);
+        return productService.patchProduct(id, product);
     }
+
+
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        productRepository.deleteById(id);
-        return "Product deleted successfully";
-    }
-
-
-
-    @HeadMapping("/{id}")
-    public ResponseEntity<Void> headProduct(@PathVariable long id) {
-        boolean exists = productRepository.existsById(id);
-        return exists ? ResponseEntity.ok().build()
-                : ResponseEntity.notFound().build();
-
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+        productService.deleteById(id);
+        return ResponseEntity.ok("Product deleted successfully");
     }
 
 
