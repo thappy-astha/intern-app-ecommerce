@@ -1,5 +1,8 @@
 package com.intern.app.ecommerce.controller;
 
+
+//jdbc:mysql://localhost:3306/product_db
+//Astha@321
 import com.intern.app.ecommerce.model.Admin;
 import com.intern.app.ecommerce.service.AdminService;
 import jakarta.validation.Valid;
