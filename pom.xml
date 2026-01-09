@@ -14,7 +14,7 @@
 	<groupId>com.intern.app</groupId>
 	<artifactId>ecommerce</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>ecommerce</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -61,6 +61,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 
 
 
