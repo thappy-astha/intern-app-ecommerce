@@ -2,8 +2,8 @@
 <module version="4">
   <component name="AdditionalModuleElements">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/ecommerce/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/ecommerce/src/test/java/com/intern/app/ecommerce/model" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/src/test/java/com/intern/app/ecommerce/model" />
     </content>
   </component>
 </module>
