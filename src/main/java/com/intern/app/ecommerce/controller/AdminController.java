@@ -1,8 +1,7 @@
 package com.intern.app.ecommerce.controller;
 
 
-//jdbc:mysql://localhost:3306/product_db
-//Astha@321
+
 import com.intern.app.ecommerce.model.Admin;
 import com.intern.app.ecommerce.service.AdminService;
 import jakarta.validation.Valid;
@@ -43,5 +42,13 @@ public class AdminController {
     public String deleteAdmin(@PathVariable Long id) {
         adminService.deleteAdmin(id);
         return "Admin deleted successfully";
+    }
+
+    @PutMapping("/{id}")
+    public Admin updateAdmin(
+            @PathVariable Long id,
+            @RequestBody Admin admin) {
+
+        return adminService.updateAdmin(id, admin);
     }
 }

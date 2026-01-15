@@ -3,6 +3,7 @@ package com.intern.app.ecommerce.controller;
 
 import com.intern.app.ecommerce.model.User;
 import com.intern.app.ecommerce.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User savedUser = userService.saveUser(user);
+        return ResponseEntity.ok(savedUser);
     }
 
     @GetMapping
@@ -38,5 +40,12 @@ public class UserController {
 
         return userService.updateUser(id, user);
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "User deleted successfully";
+    }
+
 
 }
