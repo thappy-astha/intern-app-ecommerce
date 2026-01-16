@@ -44,6 +44,7 @@ public class Admin {
     @Column(name = "phone_number", nullable = false)
     private Long phoneNumber;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
 

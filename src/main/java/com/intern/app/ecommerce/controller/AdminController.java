@@ -20,8 +20,13 @@ public class AdminController {
 
     @PostMapping
     public Admin createAdmin(@Valid @RequestBody Admin admin) {
+        //return adminService.createAdmin(admin);
+
+
+        System.out.println("ADMIN RECEIVED: " + admin.getFirstName() + " " + admin.getEmail());
         return adminService.createAdmin(admin);
     }
+
 
     @GetMapping
     public List<Admin> getAllAdmins() {
@@ -44,4 +49,7 @@ public class AdminController {
 
         return adminService.updateAdmin(id, admin);
     }
+
+
+
 }
