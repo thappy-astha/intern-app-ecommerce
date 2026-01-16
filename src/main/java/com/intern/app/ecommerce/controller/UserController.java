@@ -1,6 +1,7 @@
 package com.intern.app.ecommerce.controller;
 
 
+import com.intern.app.ecommerce.model.Admin;
 import com.intern.app.ecommerce.model.User;
 import com.intern.app.ecommerce.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,6 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -19,22 +19,20 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        // Log the incoming object to see if fields like firstName or addressL1 are null
-        logger.info("Received signup request for: {}", user.getEmail());
-        logger.info("AddressL1 received: {}", user.getAddressL1());
+//    public User createUser(@Valid @RequestBody User user) {
+//        return userService.createUser(user);
 
-        User savedUser = userService.saveUser(user);
-
-        logger.info("User saved successfully with ID: {}", savedUser.getId());
-        return ResponseEntity.ok(savedUser);
+    public User createUser(@RequestBody User user) {
+        System.out.println("🔥 POST /api/user HIT 🔥");
+        System.out.println("User: " + user.getFirstName() + " " + user.getEmail());
+        return userService.createUser(user);
     }
+
 
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
-
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);

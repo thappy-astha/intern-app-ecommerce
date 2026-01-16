@@ -1,7 +1,9 @@
 package com.intern.app.ecommerce.service;
 
+import com.intern.app.ecommerce.model.Admin;
 import com.intern.app.ecommerce.model.User;
 import com.intern.app.ecommerce.repository.UserRepository;
+import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -15,8 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
-    public User saveUser(User user) {
+    public User createUser(User user) {
         return userRepository.save(user);
     }
 
@@ -26,10 +27,18 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    @Transactional
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
+        userRepository.deleteById(id);
+    }
+
+
+        @Transactional
     public User updateUser(Long id, User updatedUser) {
         User existingUser = getUserById(id);
 
@@ -47,13 +56,6 @@ public class UserService {
         existingUser.setRole(updatedUser.getRole());
 
         return userRepository.save(existingUser);
-    }
-
-    public void deleteUser(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found");
-        }
-        userRepository.deleteById(id);
     }
 
 
