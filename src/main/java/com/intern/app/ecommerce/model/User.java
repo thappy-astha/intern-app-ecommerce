@@ -26,7 +26,6 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @JsonProperty("addressL1")
     @Column(name = "addressl1", nullable = false)
     private String addressL1;
 
@@ -36,11 +35,9 @@ public class User {
     @Column(name = "addressl3")
     private String addressL3;
 
-    @JsonProperty("pinCode")
     @Column(name = "pin_code", nullable = false)
     private Long pinCode;
 
-    @JsonProperty("phoneNumber")
     @Column(name = "phone_number", nullable = false)
     private Long phoneNumber;
 
@@ -49,7 +46,6 @@ public class User {
 
     @Column(name = "role", nullable = false)
     private String role;
-
 
     public User() {}
 
