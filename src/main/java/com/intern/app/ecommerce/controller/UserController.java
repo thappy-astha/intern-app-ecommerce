@@ -11,6 +11,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
 
+    private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -19,7 +20,13 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        // Log the incoming object to see if fields like firstName or addressL1 are null
+        logger.info("Received signup request for: {}", user.getEmail());
+        logger.info("AddressL1 received: {}", user.getAddressL1());
+
         User savedUser = userService.saveUser(user);
+
+        logger.info("User saved successfully with ID: {}", savedUser.getId());
         return ResponseEntity.ok(savedUser);
     }
 

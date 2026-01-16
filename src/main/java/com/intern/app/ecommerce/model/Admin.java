@@ -10,40 +10,41 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
+    @Column(name = "middle_name")
     private String middleName;
 
-    @Column(nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "addressl1", nullable = false)
+    @Column(name = "address_l1", nullable = false)
     private String addressL1;
 
-    @Column(name = "addressl2")
+    @Column(name = "address_l2")
     private String addressL2;
 
-    @Column(name = "addressl3")
+    @Column(name = "address_l3")
     private String addressL3;
 
-    @Column(nullable = false)
+    @Column(name = "pin_code", nullable = false)
     private Long pinCode;
 
-    @Column(nullable = false)
+    @Column(name = "phone_number", nullable = false)
     private Long phoneNumber;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String role; // Usually "ADMIN"
+    @Column(name = "role", nullable = false)
+    private String role;
 
     public Admin() {}
 
