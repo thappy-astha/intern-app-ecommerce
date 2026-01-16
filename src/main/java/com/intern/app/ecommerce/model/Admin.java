@@ -24,10 +24,13 @@ public class Admin {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "addressl1", nullable = false)
     private String addressL1;
 
+    @Column(name = "addressl2")
     private String addressL2;
+
+    @Column(name = "addressl3")
     private String addressL3;
 
     @Column(nullable = false)
