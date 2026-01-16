@@ -26,14 +26,15 @@ public class Admin {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "addressl1", nullable = false)
+    @Column(name = "address_l1", nullable = false)
     private String addressL1;
 
-    @Column(name = "addressl2")
+    @Column(name = "address_l2")
     private String addressL2;
 
-    @Column(name = "addressl3")
+    @Column(name = "address_l3")
     private String addressL3;
+
 
     @Column(name = "pin_code", nullable = false)
     private Long pinCode;
