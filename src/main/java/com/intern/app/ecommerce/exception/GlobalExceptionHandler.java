@@ -1,6 +1,5 @@
 package com.intern.app.ecommerce.exception;
 
-
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
