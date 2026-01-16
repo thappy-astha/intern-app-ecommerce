@@ -1,5 +1,6 @@
 package com.intern.app.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -41,8 +42,10 @@ public class Admin {
     private Long phoneNumber;
 
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
+
 
     @Column(name = "role", nullable = false)
     private String role;
