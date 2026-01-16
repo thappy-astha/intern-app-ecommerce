@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "admins") // Maps to the admins table in Railway
-public class Admin {
+@Table(name = "vendor") // Maps to the admins table in Railway
+public class Vendor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +51,7 @@ public class Admin {
     @Column(name = "role", nullable = false)
     private String role;
 
-    public Admin() {}
+    public Vendor() {}
 
 
     public Long getId() { return id; }

@@ -1,10 +1,8 @@
 package com.intern.app.ecommerce.controller;
 
 
-import com.intern.app.ecommerce.model.Admin;
 import com.intern.app.ecommerce.model.User;
 import com.intern.app.ecommerce.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

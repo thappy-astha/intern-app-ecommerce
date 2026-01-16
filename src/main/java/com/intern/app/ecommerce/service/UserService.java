@@ -1,9 +1,7 @@
 package com.intern.app.ecommerce.service;
 
-import com.intern.app.ecommerce.model.Admin;
 import com.intern.app.ecommerce.model.User;
 import com.intern.app.ecommerce.repository.UserRepository;
-import jakarta.annotation.Nonnull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
