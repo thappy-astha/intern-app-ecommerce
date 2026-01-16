@@ -27,13 +27,13 @@ public class Admin {
     private String email;
 
     @JsonProperty("addressL1")
-    @Column(name = "address_l1", nullable = false)
+    @Column(name = "addressl1", nullable = false)
     private String addressL1;
 
-    @Column(name = "address_l2")
+    @Column(name = "addressl2")
     private String addressL2;
 
-    @Column(name = "address_l3")
+    @Column(name = "addressl3")
     private String addressL3;
 
     @JsonProperty("pinCode")

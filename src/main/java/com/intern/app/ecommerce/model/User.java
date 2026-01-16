@@ -1,5 +1,6 @@
 package com.intern.app.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -25,18 +26,21 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "address_l1", nullable = false)
+    @JsonProperty("addressL1")
+    @Column(name = "addressl1", nullable = false)
     private String addressL1;
 
-    @Column(name = "address_l2")
+    @Column(name = "addressl2")
     private String addressL2;
 
-    @Column(name = "address_l3")
+    @Column(name = "addressl3")
     private String addressL3;
 
+    @JsonProperty("pinCode")
     @Column(name = "pin_code", nullable = false)
     private Long pinCode;
 
+    @JsonProperty("phoneNumber")
     @Column(name = "phone_number", nullable = false)
     private Long phoneNumber;
 
