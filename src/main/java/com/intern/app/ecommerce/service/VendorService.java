@@ -26,13 +26,14 @@ public class VendorService {
             throw new RuntimeException("Password and Confirm Password do not match");
         }
 
+        // Always force role
+        vendor.setRole("VENDOR");
         return vendorRepository.save(vendor);
     }
 
     public List<Vendor> getAllVendors() {
         return vendorRepository.findAll();
     }
-
     public Vendor getVendorById(Long id) {
         return vendorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vendor not found"));
@@ -51,15 +52,16 @@ public class VendorService {
 
 
         existingVendor.setFirstName(updatedVendor.getFirstName());
-        existingVendor.setMiddleName(updatedVendor.getMiddleName());
         existingVendor.setLastName(updatedVendor.getLastName());
         existingVendor.setGender(updatedVendor.getGender());
         existingVendor.setEmail(updatedVendor.getEmail());
-        existingVendor.setAddressL1(updatedVendor.getAddressL1());
-        existingVendor.setAddressL2(updatedVendor.getAddressL2());
-        existingVendor.setAddressL3(updatedVendor.getAddressL3());
+        existingVendor.setShopName(updatedVendor.getShopName());
+        existingVendor.setWebsite(updatedVendor.getWebsite());
+        existingVendor.setPermanentAddress(updatedVendor.getPermanentAddress());
+        existingVendor.setShopAddress(updatedVendor.getShopAddress());
         existingVendor.setPinCode(updatedVendor.getPinCode());
-        existingVendor.setPhoneNumber(updatedVendor.getPhoneNumber());
+        existingVendor.setPhoneNo(updatedVendor.getPhoneNo());
+        existingVendor.setGstNumber(updatedVendor.getGstNumber());
         existingVendor.setPassword(updatedVendor.getPassword());
         existingVendor.setRole(updatedVendor.getRole());
 

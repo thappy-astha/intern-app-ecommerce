@@ -1,112 +1,118 @@
+
 package com.intern.app.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "vendor")
-public class Vendor {
+    @Entity
+    @Table(name = "vendor")
+    public class Vendor {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @NotBlank
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
+        @NotBlank
+        @Column(name = "first_name", nullable = false)
+        private String firstName;
 
-    @Column(name = "middle_name")
-    private String middleName;
+        @NotBlank
+        @Column(name = "last_name", nullable = false)
+        private String lastName;
 
-    @NotBlank
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+        @NotBlank
+        @Column(name = "email", nullable = false, unique = true)
+        private String email;
 
-    @NotBlank
-    @Column(name = "gender", nullable = false)
-    private String gender;
+        @NotBlank
+        @Column(name = "gender", nullable = false)
+        private String gender;
 
-    @NotBlank
-    @Column(name = "email", unique = true, nullable = false)
-    private String email;
+        @NotBlank
+        @Column(name = "shop_name", nullable = false)
+        private String shopName;
 
-    @NotBlank
-    @Column(name = "address_l1", nullable = false)
-    private String addressL1;
+        @Column(name = "website")
+        private String website;
 
-    @Column(name = "address_l2")
-    private String addressL2;
+        @NotBlank
+        @Column(name = "permanent_address", nullable = false)
+        private String permanentAddress;
 
-    @Column(name = "address_l3")
-    private String addressL3;
+        @NotBlank
+        @Column(name = "shop_address", nullable = false)
+        private String shopAddress;
 
-    @NotNull
-    @Column(name = "pin_code", nullable = false)
-    private Long pinCode;
+        @Column(name = "pin_code", nullable = false)
+        private Long pinCode;
 
-    @NotNull
-    @Column(name = "phone_number", nullable = false)
-    private Long phoneNumber;
+        @Column(name = "phone_no", nullable = false)
+        private Long phoneNo;
 
-    @NotBlank
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "password", nullable = false)
-    private String password;
+        @Column(name = "gst_number")
+        private String gstNumber;
 
-    @Transient
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String confirmPassword;
+        @NotBlank
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        @Column(name = "password", nullable = false)
+        private String password;
 
-    @NotBlank
-    @Column(name = "role", nullable = false)
-    private String role;
+        // NOT stored in DB
+        @Transient
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+        private String confirmPassword;
+
+        @NotBlank
+        @Column(name = "role", nullable = false)
+        private String role;
+
+        public Vendor() {}
 
 
-    public Vendor() {}
 
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+        public String getFirstName() { return firstName; }
+        public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+        public String getLastName() { return lastName; }
+        public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getMiddleName() { return middleName; }
-    public void setMiddleName(String middleName) { this.middleName = middleName; }
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
 
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
+        public String getGender() { return gender; }
+        public void setGender(String gender) { this.gender = gender; }
 
-    public String getGender() { return gender; }
-    public void setGender(String gender) { this.gender = gender; }
+        public String getShopName() { return shopName; }
+        public void setShopName(String shopName) { this.shopName = shopName; }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+        public String getWebsite() { return website; }
+        public void setWebsite(String website) { this.website = website; }
 
-    public String getAddressL1() { return addressL1; }
-    public void setAddressL1(String addressL1) { this.addressL1 = addressL1; }
+        public String getPermanentAddress() { return permanentAddress; }
+        public void setPermanentAddress(String permanentAddress) { this.permanentAddress = permanentAddress; }
 
-    public String getAddressL2() { return addressL2; }
-    public void setAddressL2(String addressL2) { this.addressL2 = addressL2; }
+        public String getShopAddress() { return shopAddress; }
+        public void setShopAddress(String shopAddress) { this.shopAddress = shopAddress; }
 
-    public String getAddressL3() { return addressL3; }
-    public void setAddressL3(String addressL3) { this.addressL3 = addressL3; }
+        public Long getPinCode() { return pinCode; }
+        public void setPinCode(Long pinCode) { this.pinCode = pinCode; }
 
-    public Long getPinCode() { return pinCode; }
-    public void setPinCode(Long pinCode) { this.pinCode = pinCode; }
+        public Long getPhoneNo() { return phoneNo; }
+        public void setPhoneNo(Long phoneNo) { this.phoneNo = phoneNo; }
 
-    public Long getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(Long phoneNumber) { this.phoneNumber = phoneNumber; }
+        public String getGstNumber() { return gstNumber; }
+        public void setGstNumber(String gstNumber) { this.gstNumber = gstNumber; }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+        public String getConfirmPassword() { return confirmPassword; }
+        public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
 
-    public String getConfirmPassword() {return confirmPassword;}
-    public void setConfirmPassword(String confirmPassword) {this.confirmPassword = confirmPassword;}
-
-}
+        public String getRole() { return role; }
+        public void setRole(String role) { this.role = role; }
+    }
