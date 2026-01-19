@@ -42,7 +42,7 @@ public class VendorController {
     @PutMapping("/{id}")
     public Vendor updateVendor(
             @PathVariable Long id,
-            @RequestBody Vendor vendor) {
+            @Valid @RequestBody Vendor vendor) {
 
         return vendorService.updateVendor(id, vendor);
     }

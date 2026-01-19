@@ -3,6 +3,7 @@ package com.intern.app.ecommerce.controller;
 
 import com.intern.app.ecommerce.model.User;
 import com.intern.app.ecommerce.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class UserController {
     @PutMapping("/{id}")
     public User updateUser(
             @PathVariable Long id,
-            @RequestBody User user) {
+            @Valid @RequestBody User user) {
 
         return userService.updateUser(id, user);
     }

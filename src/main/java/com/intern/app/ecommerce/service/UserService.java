@@ -16,8 +16,19 @@ public class UserService {
     }
 
     public User createUser(User user) {
-        return userRepository.save(user);
-    }
+
+            if (user.getPassword() == null || user.getConfirmPassword() == null) {
+                throw new RuntimeException("Password and Confirm Password are required");
+            }
+
+            if (!user.getPassword().equals(user.getConfirmPassword())) {
+                throw new RuntimeException("Password and Confirm Password do not match");
+            }
+
+            return userRepository.save(user);
+        }
+
+
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -53,7 +64,18 @@ public class UserService {
         existingUser.setPassword(updatedUser.getPassword());
         existingUser.setRole(updatedUser.getRole());
 
-        return userRepository.save(existingUser);
+            // 🔐 Update password ONLY if provided
+            if (updatedUser.getPassword() != null && updatedUser.getConfirmPassword() != null) {
+
+                if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
+                    throw new RuntimeException("Password and Confirm Password do not match");
+                }
+
+                existingUser.setPassword(updatedUser.getPassword());
+            }
+
+
+            return userRepository.save(existingUser);
     }
 
 

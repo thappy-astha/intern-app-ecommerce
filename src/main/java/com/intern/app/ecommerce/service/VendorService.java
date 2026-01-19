@@ -18,6 +18,14 @@ public class VendorService {
     }
 
     public Vendor createVendor(Vendor vendor) {
+        if (vendor.getPassword() == null || vendor.getConfirmPassword() == null) {
+            throw new RuntimeException("Password and Confirm Password are required");
+        }
+
+        if (!vendor.getPassword().equals(vendor.getConfirmPassword())) {
+            throw new RuntimeException("Password and Confirm Password do not match");
+        }
+
         return vendorRepository.save(vendor);
     }
 
@@ -55,6 +63,15 @@ public class VendorService {
         existingVendor.setPassword(updatedVendor.getPassword());
         existingVendor.setRole(updatedVendor.getRole());
 
+        //  Update password ONLY if provided
+        if (updatedVendor.getPassword() != null && updatedVendor.getConfirmPassword() != null) {
+
+            if (!updatedVendor.getPassword().equals(updatedVendor.getConfirmPassword())) {
+                throw new RuntimeException("Password and Confirm Password do not match");
+            }
+
+            existingVendor.setPassword(updatedVendor.getPassword());
+        }
         return vendorRepository.save(existingVendor);
     }
 }

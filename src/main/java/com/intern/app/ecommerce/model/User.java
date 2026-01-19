@@ -2,6 +2,8 @@ package com.intern.app.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -11,21 +13,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Column(name = "middle_name")
     private String middleName;
 
+    @NotBlank
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @NotBlank
     @Column(name = "gender", nullable = false)
     private String gender;
 
+    @NotBlank
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @NotBlank
     @Column(name = "address_l1", nullable = false)
     private String addressL1;
 
@@ -35,19 +42,24 @@ public class User {
     @Column(name = "address_l3")
     private String addressL3;
 
-
+    @NotNull
     @Column(name = "pin_code", nullable = false)
     private Long pinCode;
 
+    @NotNull
     @Column(name = "phone_number", nullable = false)
     private Long phoneNumber;
 
-
+    @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String confirmPassword;
 
+    @NotBlank
     @Column(name = "role", nullable = false)
     private String role;
 
@@ -92,4 +104,7 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public String getConfirmPassword() {return confirmPassword;}
+    public void setConfirmPassword(String confirmPassword) {this.confirmPassword = confirmPassword;}
 }
