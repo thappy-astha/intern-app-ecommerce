@@ -3,10 +3,9 @@ package com.intern.app.ecommerce.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import java.util.List;
 
-
-
-@Entity   //a Java class that maps to a database table
+@Entity
 @Table(name = "products")
 public class Product {
 
@@ -14,116 +13,69 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Product name cannot be blank")
-    @Size(min = 2, max = 100, message = "Product name must be between 2 and 100 characters")
+    @NotBlank
+    @Size(min = 2, max = 100)
     private String name;
 
-    @Min(value = 0, message = "Quantity cannot be negative")
+    @NotBlank
+    private String category;
+
+    @ElementCollection
+    @CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "size")
+    private List<String> sizes;
+
+    @Min(0)
     private Integer quantity;
 
-    @Min(value = 0, message = "Discount cannot be negative")
-    @Max(value = 100, message = "Discount cannot exceed 100")
+    @Min(0)
+    @Max(100)
     private Long discount;
 
-    @Positive(message = "Original price must be greater than 0")
+    @Positive
     private long originalPrice;
 
-    @PositiveOrZero(message = "Discount price cannot be negative")
+    @PositiveOrZero
     private long discountPrice;
 
-    @Positive(message = "Size must be greater than 0")
-    private Long size;
-
-    @Size(max = 500, message = "Description cannot exceed 500 characters")
+    @Size(max = 500)
     private String description;
 
     @JsonIgnore
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    @NotNull(message = "Product image is required")
-    private byte[] image;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductImage> images;
+
+    public Product() {}
 
 
-    public Product() {
-    }
 
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
+    public List<String> getSizes() { return sizes; }
+    public void setSizes(List<String> sizes) { this.sizes = sizes; }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
 
+    public Long getDiscount() { return discount; }
+    public void setDiscount(Long discount) { this.discount = discount; }
 
-    public long getOriginalPrice() {
-        return originalPrice;
-    }
-    public void setOriginalPrice(long originalPrice) {
-        this.originalPrice = originalPrice;
-    }
+    public long getOriginalPrice() { return originalPrice; }
+    public void setOriginalPrice(long originalPrice) { this.originalPrice = originalPrice; }
 
+    public long getDiscountPrice() { return discountPrice; }
+    public void setDiscountPrice(long discountPrice) { this.discountPrice = discountPrice; }
 
-    public long getDiscountPrice() {
-        return discountPrice;
-    }
-    public void setDiscountPrice(long discountPrice) {
-        this.discountPrice = discountPrice;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public Long getDiscount() {
-        return discount;
-    }
-    public void setDiscount(Long discount) {
-        this.discount = discount;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public byte[] getImage() {return image;}
-    public void setImage(byte[] image) {this.image = image;}
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", quantity='" + quantity + '\'' +
-                ", discount=" + discount +
-                ", originalPrice=" + originalPrice +
-                ", discountPrice=" + discountPrice +
-                ", size=" + size +
-                ", description='" + description + '\'' +
-                '}';
-    }
+    public List<ProductImage> getImages() { return images; }
+    public void setImages(List<ProductImage> images) { this.images = images; }
 }
-
