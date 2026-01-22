@@ -34,11 +34,14 @@ public class VendorController {
         return vendorService.getVendorById(id);
     }
 
+
     @DeleteMapping("/{id}")
     public String deleteVendor(@PathVariable Long id) {
         vendorService.deleteVendor(id);
         return "Vendor deleted successfully";
     }
+
+
     @PutMapping("/{id}")
     public Vendor updateVendor(
             @PathVariable Long id,
