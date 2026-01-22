@@ -20,10 +20,9 @@ public class Product {
     @NotBlank
     private String category;
 
-    @ElementCollection
-    @CollectionTable(name = "product_sizes", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "size")
-    private List<String> sizes;
+    @Column(name = "sizes")
+    private String sizes;
+
 
     @Min(0)
     private Integer quantity;
