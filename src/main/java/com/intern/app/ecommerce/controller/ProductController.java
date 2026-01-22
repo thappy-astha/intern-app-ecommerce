@@ -37,7 +37,7 @@ public class ProductController {
     public Product addProduct(
             @RequestParam @NotBlank String name,
             @RequestParam @NotBlank String category,
-            @RequestParam List<String> sizes,
+            @RequestParam String sizes,
             @RequestParam @Min(0) Integer quantity,
             @RequestParam @Min(0) @Max(100) Long discount,
             @RequestParam @Positive long originalPrice,

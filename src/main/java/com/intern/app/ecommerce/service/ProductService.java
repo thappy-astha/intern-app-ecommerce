@@ -36,7 +36,7 @@ public class ProductService {
     public Product saveProduct(
             String name,
             String category,
-            List<String> sizes,
+            String sizes,
             Integer quantity,
             Long discount,
             long originalPrice,
