@@ -7,6 +7,9 @@ import com.intern.app.ecommerce.repository.UserRepository;
 import com.intern.app.ecommerce.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AuthService {
 
@@ -18,7 +21,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public String login(LoginRequest request) {
+    public Object login(LoginRequest request) {
 
         String role = request.getRole().toUpperCase();
 
@@ -29,7 +32,13 @@ public class AuthService {
                 if (!vendor.getPassword().equals(request.getPassword())) {
                     throw new RuntimeException("Invalid password");
                 }
-                return "Vendor login successful";
+                Map<String, Object> vendorResponse = new HashMap<>();
+                vendorResponse.put("id", vendor.getId());
+                vendorResponse.put("first_name", vendor.getFirstName());   // or firstName
+                vendorResponse.put("email", vendor.getEmail());
+                vendorResponse.put("role", "VENDOR");
+
+                return vendorResponse;
 
             case "USER":
                 User user = userRepository.findByEmail(request.getEmail())
@@ -37,7 +46,13 @@ public class AuthService {
                 if (!user.getPassword().equals(request.getPassword())) {
                     throw new RuntimeException("Invalid password");
                 }
-                return "User login successful";
+                Map<String, Object> userResponse = new HashMap<>();
+                userResponse.put("id", user.getId());
+                userResponse.put("firstName", user.getFirstName());
+                userResponse.put("email", user.getEmail());
+                userResponse.put("role", "USER");
+
+                return userResponse;
 
             default:
                 throw new RuntimeException("Invalid role. Must be USER or VENDOR");
