@@ -34,7 +34,7 @@ public class AuthService {
                 }
                 Map<String, Object> vendorResponse = new HashMap<>();
                 vendorResponse.put("id", vendor.getId());
-                vendorResponse.put("firstname", vendor.getFirstName());   // or firstName
+                vendorResponse.put("firstName", vendor.getFirstName());   // or firstName
                 vendorResponse.put("email", vendor.getEmail());
                 vendorResponse.put("role", "VENDOR");
 
