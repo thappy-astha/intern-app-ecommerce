@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -40,8 +41,8 @@ public class ProductController {
             @RequestParam String sizes,
             @RequestParam @Min(0) Integer quantity,
             @RequestParam @Min(0) @Max(100) Long discount,
-            @RequestParam @Positive long originalPrice,
-            @RequestParam @PositiveOrZero long discountPrice,
+            @RequestParam @Positive BigDecimal originalPrice,
+            @RequestParam @PositiveOrZero BigDecimal discountPrice,
             @RequestParam String description,
             @RequestParam MultipartFile[] images
     ) throws Exception {

@@ -3,6 +3,8 @@ package com.intern.app.ecommerce.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -32,10 +34,10 @@ public class Product {
     private Long discount;
 
     @Positive
-    private long originalPrice;
+    private BigDecimal originalPrice;
 
     @PositiveOrZero
-    private long discountPrice;
+    private BigDecimal discountPrice;
 
     @Size(max = 500)
     private String description;
@@ -66,11 +68,11 @@ public class Product {
     public Long getDiscount() { return discount; }
     public void setDiscount(Long discount) { this.discount = discount; }
 
-    public long getOriginalPrice() { return originalPrice; }
-    public void setOriginalPrice(long originalPrice) { this.originalPrice = originalPrice; }
+    public BigDecimal getOriginalPrice() { return originalPrice; }
+    public void setOriginalPrice(BigDecimal originalPrice) { this.originalPrice = originalPrice; }
 
-    public long getDiscountPrice() { return discountPrice; }
-    public void setDiscountPrice(long discountPrice) { this.discountPrice = discountPrice; }
+    public BigDecimal getDiscountPrice() { return discountPrice; }
+    public void setDiscountPrice(BigDecimal discountPrice) { this.discountPrice = discountPrice; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

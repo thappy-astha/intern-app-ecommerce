@@ -7,6 +7,7 @@ import com.intern.app.ecommerce.repository.ProductImageRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +40,8 @@ public class ProductService {
             String sizes,
             Integer quantity,
             Long discount,
-            long originalPrice,
-            long discountPrice,
+            BigDecimal originalPrice,
+            BigDecimal discountPrice,
             String description,
             MultipartFile[] images
     ) throws Exception {
