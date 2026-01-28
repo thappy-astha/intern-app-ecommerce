@@ -28,9 +28,10 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable long id) {
-        return productService.getProductById(id);
+    public ResponseEntity<Product> getProduct(@PathVariable long id) {
+        return ResponseEntity.ok(productService.getProductById(id));
     }
+
 
     @GetMapping("/images/product/{productId}")
     public ResponseEntity<List<String>> getImagesByProductId(

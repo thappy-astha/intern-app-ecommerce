@@ -37,24 +37,15 @@ public class ProductService {
 
 
 
-        public List<String> getImagesByProductId(long productId) {
+    public List<String> getImagesByProductId(long productId) {
 
-            Product product = productRepository.findById(productId)
-                    .orElseThrow(() -> new RuntimeException("Product not found"));
+        List<ProductImage> images =
+                imageRepository.findByProductId(productId);
 
-            List<String> images = new ArrayList<>();
-
-            if (product.getImages() != null) {
-                for (ProductImage productImage : product.getImages()) {
-                    String base64 = Base64.getEncoder()
-                            .encodeToString(productImage.getImage());
-                    images.add(base64);
-                }
-            }
-
-            return images;
-        }
-
+        return images.stream()
+                .map(img -> "/api/product/image/" + img.getId())
+                .toList();
+    }
 
 
 

@@ -42,13 +42,21 @@ public class Product {
     @Size(max = 500)
     private String description;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images;
 
+
+    @Transient
+    public List<String> getImageUrls() {
+        if (images == null) return List.of();
+
+        return images.stream()
+                .map(img -> "/api/product/image/" + img.getId())
+                .toList();
+    }
+
     public Product() {}
-
-
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
