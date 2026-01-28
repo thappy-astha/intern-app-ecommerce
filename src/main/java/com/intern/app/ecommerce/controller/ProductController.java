@@ -32,12 +32,14 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
-    @GetMapping("/image/{imageId}")
-    public ResponseEntity<byte[]> getImage(@PathVariable long imageId) {
-        return ResponseEntity.ok()
-                .header("Content-Type", "image/png")
-                .body(productService.getImage(imageId));
+    @GetMapping("/images/product/{productId}")
+    public ResponseEntity<List<String>> getImagesByProductId(
+            @PathVariable long productId) {
+
+        return ResponseEntity.ok(productService.getImagesByProductId(productId));
     }
+
+
 
     @PostMapping(consumes = "multipart/form-data")
     public Product addProduct(

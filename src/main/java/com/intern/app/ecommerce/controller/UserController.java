@@ -18,9 +18,6 @@ public class UserController {
     }
 
     @PostMapping
-//    public User createUser(@RequestBody User user) {
-//        return userService.createUser(user);
-
     public User createUser(@RequestBody User user) {
         System.out.println("🔥 POST /api/user HIT 🔥");
         System.out.println("User: " + user.getFirstName() + " " + user.getEmail());
@@ -46,6 +43,16 @@ public class UserController {
 
         return userService.updateUser(id, user);
     }
+
+    @PatchMapping("/{id}")
+    public User patchUser(
+            @PathVariable Long id,
+            @RequestBody User user) {
+
+        return userService.patchUser(id, user);
+    }
+
+
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {

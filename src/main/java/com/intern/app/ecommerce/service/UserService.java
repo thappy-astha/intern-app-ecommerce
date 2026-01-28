@@ -78,4 +78,68 @@ public class UserService {
     }
 
 
+    @Transactional
+    public User patchUser(Long id, User updatedUser) {
+
+        User existingUser = getUserById(id);
+
+        if (updatedUser.getFirstName() != null) {
+            existingUser.setFirstName(updatedUser.getFirstName());
+        }
+
+        if (updatedUser.getMiddleName() != null) {
+            existingUser.setMiddleName(updatedUser.getMiddleName());
+        }
+
+        if (updatedUser.getLastName() != null) {
+            existingUser.setLastName(updatedUser.getLastName());
+        }
+
+        if (updatedUser.getGender() != null) {
+            existingUser.setGender(updatedUser.getGender());
+        }
+
+        if (updatedUser.getEmail() != null) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+
+        if (updatedUser.getAddressL1() != null) {
+            existingUser.setAddressL1(updatedUser.getAddressL1());
+        }
+
+        if (updatedUser.getAddressL2() != null) {
+            existingUser.setAddressL2(updatedUser.getAddressL2());
+        }
+
+        if (updatedUser.getAddressL3() != null) {
+            existingUser.setAddressL3(updatedUser.getAddressL3());
+        }
+
+        if (updatedUser.getPinCode() != null) {
+            existingUser.setPinCode(updatedUser.getPinCode());
+        }
+
+        if (updatedUser.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        }
+
+        // 🔐 Password patch (only if both provided)
+        if (updatedUser.getPassword() != null || updatedUser.getConfirmPassword() != null) {
+
+            if (updatedUser.getPassword() == null || updatedUser.getConfirmPassword() == null) {
+                throw new RuntimeException("Password and Confirm Password are required");
+            }
+
+            if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
+                throw new RuntimeException("Password and Confirm Password do not match");
+            }
+
+            existingUser.setPassword(updatedUser.getPassword());
+        }
+
+        return userRepository.save(existingUser);
+    }
+
+
+
 }

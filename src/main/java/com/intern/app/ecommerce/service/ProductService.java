@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -33,11 +34,29 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-    public byte[] getImage(long imageId) {
-        return imageRepository.findById(imageId)
-                .orElseThrow(() -> new RuntimeException("Image not found"))
-                .getImage();
-    }
+
+
+
+        public List<String> getImagesByProductId(long productId) {
+
+            Product product = productRepository.findById(productId)
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            List<String> images = new ArrayList<>();
+
+            if (product.getImages() != null) {
+                for (ProductImage productImage : product.getImages()) {
+                    String base64 = Base64.getEncoder()
+                            .encodeToString(productImage.getImage());
+                    images.add(base64);
+                }
+            }
+
+            return images;
+        }
+
+
+
 
     public Product saveProduct(
             String name,
