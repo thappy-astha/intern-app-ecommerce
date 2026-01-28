@@ -23,6 +23,11 @@ public class ProductService {
         this.imageRepository = imageRepository;
     }
 
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+
     public Product getProductById(long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));

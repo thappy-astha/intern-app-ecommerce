@@ -37,6 +37,8 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+
+
     @PutMapping("/{id}")
     public User updateUser(
             @PathVariable Long id,
