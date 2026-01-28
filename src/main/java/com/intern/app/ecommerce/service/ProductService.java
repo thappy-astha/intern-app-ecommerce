@@ -75,7 +75,10 @@ public class ProductService {
 
         List<ProductImage> imageList = new ArrayList<>();
         for (MultipartFile file : images) {
-            imageList.add(new ProductImage(file.getBytes(), savedProduct));
+            String imageUrl =
+                    "https://intern-app-ecommerce-production.up.railway.app/uploads/"
+                            + file.getOriginalFilename();
+            imageList.add(new ProductImage(imageUrl, savedProduct));
         }
 
         imageRepository.saveAll(imageList);

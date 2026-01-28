@@ -52,9 +52,10 @@ public class Product {
         if (images == null) return List.of();
 
         return images.stream()
-                .map(img -> "/api/product/image/" + img.getId())
+                .map(ProductImage::getImageUrl)
                 .toList();
     }
+
 
     public Product() {}
 
