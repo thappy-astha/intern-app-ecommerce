@@ -63,9 +63,10 @@ import jakarta.validation.constraints.NotBlank;
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private String confirmPassword;
 
-        @NotBlank
+        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         @Column(name = "role", nullable = false)
-        private String role;
+        private String role = "VENDOR";
+
 
         public Vendor() {}
 
@@ -114,5 +115,4 @@ import jakarta.validation.constraints.NotBlank;
         public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
 
         public String getRole() { return role; }
-        public void setRole(String role) { this.role = role; }
     }

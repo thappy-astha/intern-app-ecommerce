@@ -59,9 +59,10 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String confirmPassword;
 
-    @NotBlank
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Column(name = "role", nullable = false)
-    private String role;
+    private String role = "USER";
+
 
     public User() {}
 
@@ -103,7 +104,6 @@ public class User {
     public void setPassword(String password) { this.password = password; }
 
     public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
 
     public String getConfirmPassword() {return confirmPassword;}
     public void setConfirmPassword(String confirmPassword) {this.confirmPassword = confirmPassword;}
