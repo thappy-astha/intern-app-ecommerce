@@ -26,8 +26,6 @@ public class VendorService {
             throw new RuntimeException("Password and Confirm Password do not match");
         }
 
-        // Always force role
-        vendor.setRole("VENDOR");
         return vendorRepository.save(vendor);
     }
 
@@ -63,7 +61,6 @@ public class VendorService {
         existingVendor.setPhoneNo(updatedVendor.getPhoneNo());
         existingVendor.setGstNumber(updatedVendor.getGstNumber());
         existingVendor.setPassword(updatedVendor.getPassword());
-        existingVendor.setRole(updatedVendor.getRole());
 
         //  Update password ONLY if provided
         if (updatedVendor.getPassword() != null && updatedVendor.getConfirmPassword() != null) {

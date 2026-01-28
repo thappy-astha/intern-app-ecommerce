@@ -62,9 +62,8 @@ public class UserService {
         existingUser.setPinCode(updatedUser.getPinCode());
         existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
         existingUser.setPassword(updatedUser.getPassword());
-        existingUser.setRole(updatedUser.getRole());
 
-            // 🔐 Update password ONLY if provided
+            //Update password ONLY if provided
             if (updatedUser.getPassword() != null && updatedUser.getConfirmPassword() != null) {
 
                 if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
