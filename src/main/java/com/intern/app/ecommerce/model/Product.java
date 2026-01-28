@@ -47,15 +47,6 @@ public class Product {
     private List<ProductImage> images;
 
 
-    @Transient
-    public List<String> getImageUrls() {
-        if (images == null) return List.of();
-
-        return images.stream()
-                .map(ProductImage::getImageUrl)
-                .toList();
-    }
-
 
     public Product() {}
 
