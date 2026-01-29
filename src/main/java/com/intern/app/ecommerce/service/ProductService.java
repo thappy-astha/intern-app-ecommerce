@@ -131,15 +131,15 @@ public class ProductService {
         if (images != null && images.length > 0) {
             product.getImages().clear(); // orphanRemoval deletes old images
 
-            List<ProductImage> newImages = new ArrayList<>();
             for (MultipartFile file : images) {
                 ProductImage img = new ProductImage();
                 img.setImageData(file.getBytes());
                 img.setContentType(file.getContentType());
                 img.setProduct(product);
-                newImages.add(img);
+
+                product.getImages().add(img);
             }
-            product.setImages(newImages);
+
         }
 
         return productRepository.save(product);
