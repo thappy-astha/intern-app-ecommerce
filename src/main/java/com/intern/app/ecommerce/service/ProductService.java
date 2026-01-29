@@ -127,7 +127,7 @@ public class ProductService {
         product.setDiscountPrice(discountPrice);
         product.setDescription(description);
 
-        // 🔥 If images are sent → replace old ones
+        //If images are sent → replace old ones
         if (images != null && images.length > 0) {
             product.getImages().clear(); // orphanRemoval deletes old images
 
