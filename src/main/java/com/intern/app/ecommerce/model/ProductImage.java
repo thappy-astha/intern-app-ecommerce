@@ -11,8 +11,12 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "image_url", nullable = false)
-    private String imageUrl;
+    @Lob
+    @Column(name = "image_data", nullable = false)
+    private byte[] imageData;
+
+    @Column(name = "content_type")
+    private String contentType;
 
     @JsonIgnore
     @ManyToOne
@@ -21,14 +25,19 @@ public class ProductImage {
 
     public ProductImage() {}
 
-    public ProductImage(String imageUrl, Product product) {
-        this.imageUrl = imageUrl;
+    public ProductImage(byte[] imageData, String contentType, Product product) {
+        this.imageData = imageData;
+        this.contentType = contentType;
         this.product = product;
     }
 
     public long getId() { return id; }
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String image) { this.imageUrl = image; }
+
+    public byte[] getImageData() { return imageData; }
+    public void setImageData(byte[] imageData) { this.imageData = imageData; }
+
+    public String getContentType() { return contentType; }
+    public void setContentType(String contentType) { this.contentType = contentType; }
 
     public Product getProduct() { return product; }
     public void setProduct(Product product) { this.product = product; }

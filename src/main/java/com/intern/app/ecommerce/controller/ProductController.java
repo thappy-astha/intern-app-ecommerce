@@ -1,6 +1,8 @@
 package com.intern.app.ecommerce.controller;
 
 import com.intern.app.ecommerce.model.Product;
+import com.intern.app.ecommerce.model.ProductImage;
+import com.intern.app.ecommerce.repository.ProductImageRepository;
 import com.intern.app.ecommerce.service.ProductService;
 import jakarta.validation.constraints.*;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,12 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductImageRepository imageRepository;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService,
+                             ProductImageRepository imageRepository) {
         this.productService = productService;
+        this.imageRepository = imageRepository;
     }
 
 
@@ -38,6 +43,17 @@ public class ProductController {
             @PathVariable long productId) {
 
         return ResponseEntity.ok(productService.getImagesByProductId(productId));
+    }
+
+    @GetMapping("/image/{imageId}")
+    public ResponseEntity<byte[]> getImage(@PathVariable long imageId) {
+
+        ProductImage image = imageRepository.findById(imageId)
+                .orElseThrow(() -> new RuntimeException("Image not found"));
+
+        return ResponseEntity.ok()
+                .header("Content-Type", image.getContentType())
+                .body(image.getImageData());
     }
 
 
@@ -65,6 +81,8 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok("Product deleted");
+        return ResponseEntity.ok("Product deleted successfully");
     }
+
+
 }

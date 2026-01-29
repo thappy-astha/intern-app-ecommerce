@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -74,11 +73,14 @@ public class ProductService {
         Product savedProduct = productRepository.save(product);
 
         List<ProductImage> imageList = new ArrayList<>();
+
         for (MultipartFile file : images) {
-            String imageUrl =
-                    "https://intern-app-ecommerce-production.up.railway.app/uploads/"
-                            + file.getOriginalFilename();
-            imageList.add(new ProductImage(imageUrl, savedProduct));
+            ProductImage img = new ProductImage(
+                    file.getBytes(),          // 👈 image as bytes
+                    file.getContentType(),    // 👈 image/png, image/jpeg
+                    savedProduct
+            );
+            imageList.add(img);
         }
 
         imageRepository.saveAll(imageList);
@@ -87,7 +89,12 @@ public class ProductService {
         return savedProduct;
     }
 
-    public void deleteProduct(long id) {
-        productRepository.deleteById(id);
-    }
+
+        public void deleteProduct(long id) {
+            Product product = productRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+
+            productRepository.delete(product);
+        }
 }
+
