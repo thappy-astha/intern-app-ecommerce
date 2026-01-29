@@ -96,5 +96,105 @@ public class ProductService {
 
             productRepository.delete(product);
         }
+
+
+
+
+
+
+    public Product updateProduct(
+            long id,
+            String name,
+            String category,
+            String sizes,
+            Integer quantity,
+            Long discount,
+            BigDecimal originalPrice,
+            BigDecimal discountPrice,
+            String description,
+            MultipartFile[] images
+    ) throws Exception {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        product.setName(name);
+        product.setCategory(category);
+        product.setSizes(sizes);
+        product.setQuantity(quantity);
+        product.setDiscount(discount);
+        product.setOriginalPrice(originalPrice);
+        product.setDiscountPrice(discountPrice);
+        product.setDescription(description);
+
+        // 🔥 If images are sent → replace old ones
+        if (images != null && images.length > 0) {
+            product.getImages().clear(); // orphanRemoval deletes old images
+
+            List<ProductImage> newImages = new ArrayList<>();
+            for (MultipartFile file : images) {
+                ProductImage img = new ProductImage();
+                img.setImageData(file.getBytes());
+                img.setContentType(file.getContentType());
+                img.setProduct(product);
+                newImages.add(img);
+            }
+            product.setImages(newImages);
+        }
+
+        return productRepository.save(product);
+    }
+
+
+
+
+
+
+
+
+
+    public Product patchProduct(
+            long id,
+            String name,
+            String category,
+            String sizes,
+            Integer quantity,
+            Long discount,
+            BigDecimal originalPrice,
+            BigDecimal discountPrice,
+            String description,
+            MultipartFile[] images
+    ) throws Exception {
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (name != null) product.setName(name);
+        if (category != null) product.setCategory(category);
+        if (sizes != null) product.setSizes(sizes);
+        if (quantity != null) product.setQuantity(quantity);
+        if (discount != null) product.setDiscount(discount);
+        if (originalPrice != null) product.setOriginalPrice(originalPrice);
+        if (discountPrice != null) product.setDiscountPrice(discountPrice);
+        if (description != null) product.setDescription(description);
+
+        // 🔥 Update images ONLY if provided
+        if (images != null && images.length > 0) {
+            product.getImages().clear();
+
+            List<ProductImage> newImages = new ArrayList<>();
+            for (MultipartFile file : images) {
+                ProductImage img = new ProductImage();
+                img.setImageData(file.getBytes());
+                img.setContentType(file.getContentType());
+                img.setProduct(product);
+                newImages.add(img);
+            }
+            product.setImages(newImages);
+        }
+
+        return productRepository.save(product);
+    }
+
 }
 

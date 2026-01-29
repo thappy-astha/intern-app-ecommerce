@@ -88,4 +88,55 @@ public class ProductController {
     }
 
 
+    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<Product> updateProduct(
+            @PathVariable long id,
+            @RequestParam String name,
+            @RequestParam String category,
+            @RequestParam String sizes,
+            @RequestParam Integer quantity,
+            @RequestParam Long discount,
+            @RequestParam BigDecimal originalPrice,
+            @RequestParam BigDecimal discountPrice,
+            @RequestParam String description,
+            @RequestParam(required = false) MultipartFile[] images
+    ) throws Exception {
+
+        return ResponseEntity.ok(
+                productService.updateProduct(
+                        id, name, category, sizes, quantity,
+                        discount, originalPrice, discountPrice,
+                        description, images
+                )
+        );
+    }
+
+
+
+
+
+
+
+
+    @PatchMapping(value = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<Product> patchProduct(
+            @PathVariable long id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String sizes,
+            @RequestParam(required = false) Integer quantity,
+            @RequestParam(required = false) Long discount,
+            @RequestParam(required = false) BigDecimal originalPrice,
+            @RequestParam(required = false) BigDecimal discountPrice,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) MultipartFile[] images
+    ) throws Exception {
+
+        return ResponseEntity.ok(
+                productService.patchProduct(id, name, category, sizes,
+                        quantity, discount, originalPrice,
+                        discountPrice, description, images)
+        );
+    }
+
 }
