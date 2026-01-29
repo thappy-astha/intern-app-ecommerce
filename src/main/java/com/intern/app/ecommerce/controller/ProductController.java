@@ -5,6 +5,7 @@ import com.intern.app.ecommerce.model.ProductImage;
 import com.intern.app.ecommerce.repository.ProductImageRepository;
 import com.intern.app.ecommerce.service.ProductService;
 import jakarta.validation.constraints.*;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,6 +56,17 @@ public class ProductController {
                 .header("Content-Type", image.getContentType())
                 .body(image.getImageData());
     }
+
+    @GetMapping("/images/{id}")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        ProductImage image = imageRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Image not found"));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(image.getContentType()))
+                .body(image.getImageData());
+    }
+
 
 
 
