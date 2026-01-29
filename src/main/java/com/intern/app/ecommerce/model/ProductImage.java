@@ -12,11 +12,13 @@ public class ProductImage {
     private long id;
 
     @Lob
-    @Column(name = "image_data", nullable = false)
+    @Column(name = "image_data", columnDefinition = "LONGBLOB", nullable = false)
     private byte[] imageData;
 
-    @Column(name = "content_type")
+
+    @Column(name = "content_type", length = 50)
     private String contentType;
+
 
     @JsonIgnore
     @ManyToOne
