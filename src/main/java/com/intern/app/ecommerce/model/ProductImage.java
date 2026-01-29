@@ -36,7 +36,7 @@ public class ProductImage {
 
     public long getId() { return id; }
 
-
+    public byte[] getImageData() { return imageData; }
     public void setImageData(byte[] imageData) { this.imageData = imageData; }
 
     public String getContentType() { return contentType; }

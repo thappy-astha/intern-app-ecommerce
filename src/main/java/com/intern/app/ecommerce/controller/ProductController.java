@@ -53,19 +53,10 @@ public class ProductController {
                 .orElseThrow(() -> new RuntimeException("Image not found"));
 
         return ResponseEntity.ok()
-                .header("Content-Type", image.getContentType())
-                .body(image.getImageData());
-    }
-
-    @GetMapping("/images/{id}")
-    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
-        ProductImage image = imageRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Image not found"));
-
-        return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(image.getContentType()))
                 .body(image.getImageData());
     }
+
 
 
 
