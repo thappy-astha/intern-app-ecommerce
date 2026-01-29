@@ -43,4 +43,10 @@ public class ProductImage {
 
     public Product getProduct() { return product; }
     public void setProduct(Product product) { this.product = product; }
+
+    @Transient
+    public String getImageUrl() {
+        return "/api/product/image/" + this.id;
+    }
+
 }
