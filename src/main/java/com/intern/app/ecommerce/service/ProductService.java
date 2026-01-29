@@ -178,7 +178,7 @@ public class ProductService {
         if (discountPrice != null) product.setDiscountPrice(discountPrice);
         if (description != null) product.setDescription(description);
 
-        // 🔥 Update images ONLY if provided
+        //Update images ONLY if provided
         if (images != null && images.length > 0) {
             product.getImages().clear();
 
