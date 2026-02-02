@@ -118,14 +118,15 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        product.setName(name);
-        product.setCategory(category);
-        product.setSizes(sizes);
-        product.setQuantity(quantity);
-        product.setDiscount(discount);
-        product.setOriginalPrice(originalPrice);
-        product.setDiscountPrice(discountPrice);
-        product.setDescription(description);
+        if (name != null) product.setName(name);
+        if (category != null) product.setCategory(category);
+        if (sizes != null) product.setSizes(sizes);
+        if (quantity != null) product.setQuantity(quantity);
+        if (discount != null) product.setDiscount(discount);
+        if (originalPrice != null) product.setOriginalPrice(originalPrice);
+        if (discountPrice != null) product.setDiscountPrice(discountPrice);
+        if (description != null) product.setDescription(description);
+
 
         //If images are sent → replace old ones
         if (images != null && images.length > 0) {
