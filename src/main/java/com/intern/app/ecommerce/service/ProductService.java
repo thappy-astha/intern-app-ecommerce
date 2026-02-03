@@ -2,8 +2,10 @@ package com.intern.app.ecommerce.service;
 
 import com.intern.app.ecommerce.model.Product;
 import com.intern.app.ecommerce.model.ProductImage;
+import com.intern.app.ecommerce.model.Vendor;
 import com.intern.app.ecommerce.repository.ProductRepository;
 import com.intern.app.ecommerce.repository.ProductImageRepository;
+import com.intern.app.ecommerce.repository.VendorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,12 +18,16 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductImageRepository imageRepository;
+    private final VendorRepository vendorRepository;
 
     public ProductService(ProductRepository productRepository,
-                          ProductImageRepository imageRepository) {
+                          ProductImageRepository imageRepository,
+                          VendorRepository vendorRepository) {
         this.productRepository = productRepository;
         this.imageRepository = imageRepository;
+        this.vendorRepository = vendorRepository;
     }
+
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -49,6 +55,7 @@ public class ProductService {
 
 
     public Product saveProduct(
+            Long vendorId,
             String name,
             String category,
             String sizes,
@@ -59,6 +66,8 @@ public class ProductService {
             String description,
             MultipartFile[] images
     ) throws Exception {
+        Vendor vendor = vendorRepository.findById(vendorId)
+                .orElseThrow(() -> new RuntimeException("Vendor not found"));
 
         Product product = new Product();
         product.setName(name);
@@ -69,6 +78,7 @@ public class ProductService {
         product.setOriginalPrice(originalPrice);
         product.setDiscountPrice(discountPrice);
         product.setDescription(description);
+        product.setVendor(vendor);
 
         Product savedProduct = productRepository.save(product);
 

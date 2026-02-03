@@ -63,6 +63,7 @@ public class ProductController {
 
     @PostMapping(consumes = "multipart/form-data")
     public Product addProduct(
+            @RequestParam Long vendorId,
             @RequestParam @NotBlank String name,
             @RequestParam @NotBlank String category,
             @RequestParam String sizes,
@@ -75,8 +76,8 @@ public class ProductController {
     ) throws Exception {
 
         return productService.saveProduct(
-                name, category, sizes, quantity,
-                discount, originalPrice,
+                vendorId, name, category, sizes,
+                quantity, discount, originalPrice,
                 discountPrice, description, images
         );
     }

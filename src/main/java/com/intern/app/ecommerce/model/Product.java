@@ -1,6 +1,7 @@
 package com.intern.app.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -46,9 +47,21 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images;
 
+    @ManyToOne
+    @JoinColumn(name = "vendor_id")
+    @JsonIgnoreProperties({
+            "email", "gender", "website", "permanentAddress",
+            "shopAddress", "pinCode", "phoneNo", "gstNumber",
+            "password", "confirmPassword", "role"
+    })
+    private Vendor vendor;
+
 
 
     public Product() {}
+
+    public void setVendor(Vendor vendor) {this.vendor = vendor;}
+    public Vendor getVendor() {return vendor;}
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
