@@ -9,5 +9,5 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
 
     List<ProductDelivery> findByProductId(Long productId);
 
+    List<ProductDelivery> findByVendorId(Long vendorId);
 }
-

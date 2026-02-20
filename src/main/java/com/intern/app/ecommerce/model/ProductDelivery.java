@@ -1,7 +1,7 @@
 package com.intern.app.ecommerce.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "product_delivery")
@@ -11,30 +11,45 @@ public class ProductDelivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "vendor_id", nullable = false)
+    private Vendor vendor;
+
     private Integer deliveredQuantity;
 
-    private Boolean delivered;
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
 
-    private LocalDate deliveryDate;
-
-    public ProductDelivery() {}
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Long getId() { return id; }
 
     public Product getProduct() { return product; }
     public void setProduct(Product product) { this.product = product; }
 
+    public Vendor getVendor() { return vendor; }
+    public void setVendor(Vendor vendor) { this.vendor = vendor; }
+
     public Integer getDeliveredQuantity() { return deliveredQuantity; }
-    public void setDeliveredQuantity(Integer deliveredQuantity) { this.deliveredQuantity = deliveredQuantity; }
+    public void setDeliveredQuantity(Integer deliveredQuantity) {
+        this.deliveredQuantity = deliveredQuantity;
+    }
 
-    public Boolean getDelivered() { return delivered; }
-    public void setDelivered(Boolean delivered) { this.delivered = delivered; }
+    public DeliveryStatus getStatus() { return status; }
+    public void setStatus(DeliveryStatus status) { this.status = status; }
 
-    public LocalDate getDeliveryDate() { return deliveryDate; }
-    public void setDeliveryDate(LocalDate deliveryDate) { this.deliveryDate = deliveryDate; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
