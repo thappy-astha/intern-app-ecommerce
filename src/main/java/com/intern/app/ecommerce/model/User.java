@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -13,8 +15,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "profile_image")
-    private String profileImage;
 
     @NotBlank
     @Column(name = "first_name", nullable = false)
@@ -35,18 +35,16 @@ public class User {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @NotBlank
-    @Column(name = "address_l1", nullable = false)
+    @Transient
     private String addressL1;
 
-    @Column(name = "address_l2")
+    @Transient
     private String addressL2;
 
-    @Column(name = "address_l3")
+    @Transient
     private String addressL3;
 
-    @NotNull
-    @Column(name = "pin_code", nullable = false)
+    @Transient
     private Long pinCode;
 
     @NotNull
@@ -66,15 +64,15 @@ public class User {
     @Column(name = "role", nullable = false)
     private String role = "USER";
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Address> address;
+
 
     public User() {}
 
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
-    public String getProfileImage() { return profileImage; }
-    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -111,6 +109,9 @@ public class User {
 
     public String getRole() { return role; }
 
-    public String getConfirmPassword() {return confirmPassword;}
-    public void setConfirmPassword(String confirmPassword) {this.confirmPassword = confirmPassword;}
+    public String getConfirmPassword() { return confirmPassword; }
+    public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
+
+    public List<Address> getAddress() {return address;}
+    public void setAddress(List<Address> address) {this.address = address;}
 }

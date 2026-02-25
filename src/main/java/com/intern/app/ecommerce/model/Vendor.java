@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-    @Entity
+import java.util.List;
+
+@Entity
     @Table(name = "vendor")
     public class Vendor {
 
@@ -13,15 +15,10 @@ import jakarta.validation.constraints.NotBlank;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
-        @Column(name = "profile_image")
-        private String profileImage;
-
         @NotBlank
-        @Column(name = "first_name", nullable = false)
         private String firstName;
 
         @NotBlank
-        @Column(name = "last_name", nullable = false)
         private String lastName;
 
         @NotBlank
@@ -29,39 +26,36 @@ import jakarta.validation.constraints.NotBlank;
         private String email;
 
         @NotBlank
-        @Column(name = "gender", nullable = false)
         private String gender;
 
         @NotBlank
-        @Column(name = "shop_name", nullable = false)
         private String shopName;
 
         @Column(name = "website")
         private String website;
 
-        @NotBlank
-        @Column(name = "permanent_address", nullable = false)
+        @Transient
         private String permanentAddress;
 
-        @NotBlank
-        @Column(name = "shop_address", nullable = false)
+        @Transient
         private String shopAddress;
 
-        @Column(name = "pin_code", nullable = false)
+        @Transient
         private Long pinCode;
 
-        @Column(name = "phone_no", nullable = false)
         private Long phoneNo;
 
-        @Column(name = "gst_number")
         private String gstNumber;
+
+
+        @OneToMany(mappedBy = "vendor", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<Address> address;
 
         @NotBlank
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         @Column(name = "password", nullable = false)
         private String password;
 
-        // NOT stored in DB
         @Transient
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private String confirmPassword;
@@ -75,9 +69,6 @@ import jakarta.validation.constraints.NotBlank;
 
         public Long getId() { return id; }
         public void setId(Long id) { this.id = id; }
-
-        public String getProfileImage() { return profileImage; }
-        public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
         public String getFirstName() { return firstName; }
         public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -119,4 +110,7 @@ import jakarta.validation.constraints.NotBlank;
         public void setConfirmPassword(String confirmPassword) { this.confirmPassword = confirmPassword; }
 
         public String getRole() { return role; }
-    }
+
+        public List<Address> getAddress() {return address;}
+        public void setAddress(List<Address> address) {this.address = address;}
+}
