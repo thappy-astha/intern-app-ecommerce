@@ -94,8 +94,9 @@ public class UserService {
 
         User existingUser = getUserById(id);
 
-        if (updatedUser.getProfileImage() != null)
+        if (updatedUser.getProfileImage() != null) {
             existingUser.setProfileImage(updatedUser.getProfileImage());
+        }
 
         if (updatedUser.getAddressL1() != null) {
             existingUser.setAddressL1(updatedUser.getAddressL1());
