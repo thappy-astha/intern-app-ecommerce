@@ -50,6 +50,12 @@ public class VendorController {
         return vendorService.updateVendor(id, vendor);
     }
 
+    @PatchMapping("/{id}")
+    public Vendor patchVendor(@PathVariable Long id,
+                              @RequestBody Vendor vendor) {
+        return vendorService.patchVendor(id, vendor);
+    }
+
 
 
 }

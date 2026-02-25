@@ -73,4 +73,53 @@ public class VendorService {
         }
         return vendorRepository.save(existingVendor);
     }
+
+
+
+    @Transactional
+    public Vendor patchVendor(Long id, Vendor updatedVendor) {
+
+        Vendor existingVendor = getVendorById(id);
+
+        //allowed fields only
+        if (updatedVendor.getShopName() != null) {
+            existingVendor.setShopName(updatedVendor.getShopName());
+        }
+
+        if (updatedVendor.getWebsite() != null) {
+            existingVendor.setWebsite(updatedVendor.getWebsite());
+        }
+
+        if (updatedVendor.getPhoneNo() != null) {
+            existingVendor.setPhoneNo(updatedVendor.getPhoneNo());
+        }
+
+        if (updatedVendor.getPermanentAddress() != null) {
+            existingVendor.setPermanentAddress(updatedVendor.getPermanentAddress());
+        }
+
+        if (updatedVendor.getShopAddress() != null) {
+            existingVendor.setShopAddress(updatedVendor.getShopAddress());
+        }
+
+        if (updatedVendor.getPinCode() != null) {
+            existingVendor.setPinCode(updatedVendor.getPinCode());
+        }
+
+        //for password
+        if (updatedVendor.getPassword() != null || updatedVendor.getConfirmPassword() != null) {
+
+            if (updatedVendor.getPassword() == null || updatedVendor.getConfirmPassword() == null) {
+                throw new RuntimeException("Password & Confirm Password required");
+            }
+
+            if (!updatedVendor.getPassword().equals(updatedVendor.getConfirmPassword())) {
+                throw new RuntimeException("Passwords do not match");
+            }
+
+            existingVendor.setPassword(updatedVendor.getPassword());
+        }
+
+        return vendorRepository.save(existingVendor);
+    }
 }

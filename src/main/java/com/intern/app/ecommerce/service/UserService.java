@@ -83,26 +83,6 @@ public class UserService {
 
         User existingUser = getUserById(id);
 
-        if (updatedUser.getFirstName() != null) {
-            existingUser.setFirstName(updatedUser.getFirstName());
-        }
-
-        if (updatedUser.getMiddleName() != null) {
-            existingUser.setMiddleName(updatedUser.getMiddleName());
-        }
-
-        if (updatedUser.getLastName() != null) {
-            existingUser.setLastName(updatedUser.getLastName());
-        }
-
-        if (updatedUser.getGender() != null) {
-            existingUser.setGender(updatedUser.getGender());
-        }
-
-        if (updatedUser.getEmail() != null) {
-            existingUser.setEmail(updatedUser.getEmail());
-        }
-
         if (updatedUser.getAddressL1() != null) {
             existingUser.setAddressL1(updatedUser.getAddressL1());
         }
