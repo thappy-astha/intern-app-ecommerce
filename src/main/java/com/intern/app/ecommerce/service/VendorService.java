@@ -49,6 +49,9 @@ public class VendorService {
 
         Vendor existingVendor = getVendorById(id);
 
+        if (updatedVendor.getProfileImage() != null)
+            existingVendor.setProfileImage(updatedVendor.getProfileImage());
+
         if (updatedVendor.getShopName() != null)
             existingVendor.setShopName(updatedVendor.getShopName());
 
@@ -92,6 +95,9 @@ public class VendorService {
         if (updatedVendor.getShopName() != null) {
             existingVendor.setShopName(updatedVendor.getShopName());
         }
+
+        if (updatedVendor.getProfileImage() != null)
+            existingVendor.setProfileImage(updatedVendor.getProfileImage());
 
         if (updatedVendor.getWebsite() != null) {
             existingVendor.setWebsite(updatedVendor.getWebsite());

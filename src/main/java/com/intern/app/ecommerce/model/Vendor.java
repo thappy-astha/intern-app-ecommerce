@@ -13,6 +13,9 @@ import jakarta.validation.constraints.NotBlank;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
 
+        @Column(name = "profile_image")
+        private String profileImage;
+
         @NotBlank
         @Column(name = "first_name", nullable = false)
         private String firstName;
@@ -70,10 +73,11 @@ import jakarta.validation.constraints.NotBlank;
 
         public Vendor() {}
 
-
-
         public Long getId() { return id; }
         public void setId(Long id) { this.id = id; }
+
+        public String getProfileImage() { return profileImage; }
+        public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
         public String getFirstName() { return firstName; }
         public void setFirstName(String firstName) { this.firstName = firstName; }

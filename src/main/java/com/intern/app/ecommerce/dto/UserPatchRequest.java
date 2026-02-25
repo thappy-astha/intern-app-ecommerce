@@ -2,11 +2,15 @@ package com.intern.app.ecommerce.dto;
 
 public class UserPatchRequest {
 
+    private String profileImage;
     private Long phoneNumber;
     private String addressL1;
     private String addressL2;
     private String addressL3;
     private Long pinCode;
+
+    public String getProfileImage() { return profileImage; }
+    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
 
     public Long getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(Long phoneNumber) { this.phoneNumber = phoneNumber; }

@@ -52,6 +52,9 @@ public class UserService {
 
         User existingUser = getUserById(id);
 
+        if (updatedUser.getProfileImage() != null)
+            existingUser.setProfileImage(updatedUser.getProfileImage());
+
         if (updatedUser.getAddressL1() != null)
             existingUser.setAddressL1(updatedUser.getAddressL1());
 
@@ -67,7 +70,7 @@ public class UserService {
         if (updatedUser.getPhoneNumber() != null)
             existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
 
-        // 🔐 password optional
+        // password optional
         if (updatedUser.getPassword() != null ||
                 updatedUser.getConfirmPassword() != null) {
 
@@ -91,6 +94,9 @@ public class UserService {
 
         User existingUser = getUserById(id);
 
+        if (updatedUser.getProfileImage() != null)
+            existingUser.setProfileImage(updatedUser.getProfileImage());
+
         if (updatedUser.getAddressL1() != null) {
             existingUser.setAddressL1(updatedUser.getAddressL1());
         }
@@ -111,7 +117,7 @@ public class UserService {
             existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
         }
 
-        // 🔐 Password patch (only if both provided)
+        // Password patch (only if both provided)
         if (updatedUser.getPassword() != null || updatedUser.getConfirmPassword() != null) {
 
             if (updatedUser.getPassword() == null || updatedUser.getConfirmPassword() == null) {
