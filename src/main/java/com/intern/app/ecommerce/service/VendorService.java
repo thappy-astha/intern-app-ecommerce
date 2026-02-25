@@ -45,32 +45,39 @@ public class VendorService {
     }
 
     @Transactional
-    public Vendor updateVendor(Long id, @Nonnull Vendor updatedVendor) {
+    public Vendor updateVendor(Long id, Vendor updatedVendor) {
+
         Vendor existingVendor = getVendorById(id);
 
+        if (updatedVendor.getShopName() != null)
+            existingVendor.setShopName(updatedVendor.getShopName());
 
-        existingVendor.setFirstName(updatedVendor.getFirstName());
-        existingVendor.setLastName(updatedVendor.getLastName());
-        existingVendor.setGender(updatedVendor.getGender());
-        existingVendor.setEmail(updatedVendor.getEmail());
-        existingVendor.setShopName(updatedVendor.getShopName());
-        existingVendor.setWebsite(updatedVendor.getWebsite());
-        existingVendor.setPermanentAddress(updatedVendor.getPermanentAddress());
-        existingVendor.setShopAddress(updatedVendor.getShopAddress());
-        existingVendor.setPinCode(updatedVendor.getPinCode());
-        existingVendor.setPhoneNo(updatedVendor.getPhoneNo());
-        existingVendor.setGstNumber(updatedVendor.getGstNumber());
-        existingVendor.setPassword(updatedVendor.getPassword());
+        if (updatedVendor.getWebsite() != null)
+            existingVendor.setWebsite(updatedVendor.getWebsite());
 
-        //  Update password ONLY if provided
-        if (updatedVendor.getPassword() != null && updatedVendor.getConfirmPassword() != null) {
+        if (updatedVendor.getPermanentAddress() != null)
+            existingVendor.setPermanentAddress(updatedVendor.getPermanentAddress());
+
+        if (updatedVendor.getShopAddress() != null)
+            existingVendor.setShopAddress(updatedVendor.getShopAddress());
+
+        if (updatedVendor.getPinCode() != null)
+            existingVendor.setPinCode(updatedVendor.getPinCode());
+
+        if (updatedVendor.getPhoneNo() != null)
+            existingVendor.setPhoneNo(updatedVendor.getPhoneNo());
+
+        // password optional
+        if (updatedVendor.getPassword() != null &&
+                updatedVendor.getConfirmPassword() != null) {
 
             if (!updatedVendor.getPassword().equals(updatedVendor.getConfirmPassword())) {
-                throw new RuntimeException("Password and Confirm Password do not match");
+                throw new RuntimeException("Password mismatch");
             }
 
             existingVendor.setPassword(updatedVendor.getPassword());
         }
+
         return vendorRepository.save(existingVendor);
     }
 

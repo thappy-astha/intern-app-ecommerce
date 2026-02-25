@@ -47,36 +47,44 @@ public class UserService {
     }
 
 
-        @Transactional
+    @Transactional
     public User updateUser(Long id, User updatedUser) {
+
         User existingUser = getUserById(id);
 
-        existingUser.setFirstName(updatedUser.getFirstName());
-        existingUser.setMiddleName(updatedUser.getMiddleName());
-        existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setGender(updatedUser.getGender());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setAddressL1(updatedUser.getAddressL1());
-        existingUser.setAddressL2(updatedUser.getAddressL2());
-        existingUser.setAddressL3(updatedUser.getAddressL3());
-        existingUser.setPinCode(updatedUser.getPinCode());
-        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-        existingUser.setPassword(updatedUser.getPassword());
+        if (updatedUser.getAddressL1() != null)
+            existingUser.setAddressL1(updatedUser.getAddressL1());
 
-            //Update password ONLY if provided
-            if (updatedUser.getPassword() != null && updatedUser.getConfirmPassword() != null) {
+        if (updatedUser.getAddressL2() != null)
+            existingUser.setAddressL2(updatedUser.getAddressL2());
 
-                if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
-                    throw new RuntimeException("Password and Confirm Password do not match");
-                }
+        if (updatedUser.getAddressL3() != null)
+            existingUser.setAddressL3(updatedUser.getAddressL3());
 
-                existingUser.setPassword(updatedUser.getPassword());
+        if (updatedUser.getPinCode() != null)
+            existingUser.setPinCode(updatedUser.getPinCode());
+
+        if (updatedUser.getPhoneNumber() != null)
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+
+        // 🔐 password optional
+        if (updatedUser.getPassword() != null ||
+                updatedUser.getConfirmPassword() != null) {
+
+            if (updatedUser.getPassword() == null ||
+                    updatedUser.getConfirmPassword() == null) {
+                throw new RuntimeException("Password and Confirm Password required");
             }
 
+            if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
+                throw new RuntimeException("Password mismatch");
+            }
 
-            return userRepository.save(existingUser);
+            existingUser.setPassword(updatedUser.getPassword());
+        }
+
+        return userRepository.save(existingUser);
     }
-
 
     @Transactional
     public User patchUser(Long id, User updatedUser) {
