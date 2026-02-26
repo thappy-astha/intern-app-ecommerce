@@ -53,6 +53,10 @@ public class ProductService {
     }
 
 
+    public List<Product> getProductsByVendor(Long vendorId) {
+        return productRepository.findByVendorId(vendorId);
+    }
+
 
     public Product saveProduct(
             Long vendorId,

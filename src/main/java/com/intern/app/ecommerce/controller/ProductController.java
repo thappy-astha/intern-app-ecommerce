@@ -59,6 +59,10 @@ public class ProductController {
 
 
 
+    @GetMapping("/vendor/{vendorId}")
+    public List<Product> getProductsByVendor(@PathVariable Long vendorId) {
+        return productService.getProductsByVendor(vendorId);
+    }
 
 
     @PostMapping(consumes = "multipart/form-data")

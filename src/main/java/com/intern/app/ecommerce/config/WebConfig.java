@@ -9,8 +9,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // This enables CORS for ALL your endpoints
-                .allowedOrigins("http://localhost:5173") // Your teammate's frontend URL
+        registry.addMapping("/**") // This enables CORS for all endpoints
+                .allowedOrigins("http://localhost:5173") //teammate's frontend URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
