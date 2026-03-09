@@ -17,14 +17,20 @@ public class ProductDeliveryController {
         this.deliveryService = deliveryService;
     }
 
+
+
+
+
     //create delivery
     @PostMapping("/create")
     public ProductDelivery create(@RequestParam Long productId,
                                   @RequestParam Long vendorId,
+                                  @RequestParam Long userId,
                                   @RequestParam Integer quantity) {
 
-        return deliveryService.createDelivery(productId, vendorId, quantity);
+        return deliveryService.createDelivery(productId, vendorId, userId, quantity);
     }
+
 
     //update delivery status
     @PutMapping("/status")
@@ -46,4 +52,11 @@ public class ProductDeliveryController {
     public List<ProductDelivery> getByVendor(@PathVariable Long vendorId) {
         return deliveryService.getByVendor(vendorId);
     }
+
+    // get deliveries of a user
+    @GetMapping("/user/{userId}")
+    public List<ProductDelivery> getByUser(@PathVariable Long userId) {
+        return deliveryService.getByUser(userId);
+    }
+
 }

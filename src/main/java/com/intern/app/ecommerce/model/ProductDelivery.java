@@ -19,6 +19,10 @@ public class ProductDelivery {
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     private Integer deliveredQuantity;
 
     @Enumerated(EnumType.STRING)
@@ -34,6 +38,9 @@ public class ProductDelivery {
 
     public Vendor getVendor() { return vendor; }
     public void setVendor(Vendor vendor) { this.vendor = vendor; }
+
+    public User getUser() {return user;}
+    public void setUser(User user) {this.user = user;}
 
     public Integer getDeliveredQuantity() { return deliveredQuantity; }
     public void setDeliveredQuantity(Integer deliveredQuantity) {
