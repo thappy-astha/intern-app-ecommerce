@@ -15,4 +15,6 @@ public interface VendorRepository extends JpaRepository<Vendor, Long> {
 
     // Optional: check if phone number is unique too
     boolean existsByPhoneNo(String phoneNo);
+
+   boolean existsByGstNumber(String gstNumber);
 }

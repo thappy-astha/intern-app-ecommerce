@@ -33,6 +33,9 @@ public class VendorService {
         if (vendor.getPhoneNo() != null && vendorRepository.existsByPhoneNo(vendor.getPhoneNo())) {
             throw new RuntimeException("This phone number is already registered");
         }
+        if (vendor.getGstNumber() != null && vendorRepository.existsByGstNumber(vendor.getGstNumber())) {
+            throw new RuntimeException("This GST number is already registered");
+        }
 
         // Password check
         if (vendor.getPassword() == null || vendor.getConfirmPassword() == null) {
