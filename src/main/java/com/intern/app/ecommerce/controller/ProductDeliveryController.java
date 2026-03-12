@@ -1,6 +1,7 @@
 package com.intern.app.ecommerce.controller;
 
 import com.intern.app.ecommerce.dto.UpdateDeliveryStatusRequest;
+import com.intern.app.ecommerce.dto.VendorOrderTrackerResponse;
 import com.intern.app.ecommerce.model.ProductDelivery;
 import com.intern.app.ecommerce.service.ProductDeliveryService;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,6 @@ public class ProductDeliveryController {
         this.deliveryService = deliveryService;
     }
 
-
-
-
-
-    //create delivery
     @PostMapping("/create")
     public ProductDelivery create(@RequestParam Long productId,
                                   @RequestParam Long vendorId,
@@ -31,8 +27,6 @@ public class ProductDeliveryController {
         return deliveryService.createDelivery(productId, vendorId, userId, quantity);
     }
 
-
-    //update delivery status
     @PutMapping("/status")
     public ProductDelivery updateStatus(@RequestBody UpdateDeliveryStatusRequest request) {
         return deliveryService.updateStatus(
@@ -41,15 +35,15 @@ public class ProductDeliveryController {
         );
     }
 
-    //get deliveries of a product
+    // get deliveries of a product
     @GetMapping("/product/{productId}")
     public List<ProductDelivery> getByProduct(@PathVariable Long productId) {
         return deliveryService.getByProduct(productId);
     }
 
-    // get deliveries of vendor
+    // get deliveries of vendor with price and total price
     @GetMapping("/vendor/{vendorId}")
-    public List<ProductDelivery> getByVendor(@PathVariable Long vendorId) {
+    public List<VendorOrderTrackerResponse> getByVendor(@PathVariable Long vendorId) {
         return deliveryService.getByVendor(vendorId);
     }
 

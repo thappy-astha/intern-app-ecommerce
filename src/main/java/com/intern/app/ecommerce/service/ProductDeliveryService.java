@@ -1,5 +1,6 @@
 package com.intern.app.ecommerce.service;
 
+import com.intern.app.ecommerce.dto.VendorOrderTrackerResponse;
 import com.intern.app.ecommerce.model.*;
 import com.intern.app.ecommerce.repository.ProductDeliveryRepository;
 import com.intern.app.ecommerce.repository.ProductRepository;
@@ -57,7 +58,7 @@ public class ProductDeliveryService {
         return deliveryRepository.save(delivery);
     }
 
-    //update delivery status
+    // update delivery status
     public ProductDelivery updateStatus(Long deliveryId,
                                         DeliveryStatus status) {
 
@@ -84,17 +85,23 @@ public class ProductDeliveryService {
         return deliveryRepository.save(delivery);
     }
 
-    //get deliveries by product
+    // get deliveries by product
     public List<ProductDelivery> getByProduct(Long productId) {
         return deliveryRepository.findByProductId(productId);
     }
 
-    // vendor deliveries
-    public List<ProductDelivery> getByVendor(Long vendorId) {
+    // old vendor deliveries if needed elsewhere
+    public List<ProductDelivery> getRawByVendor(Long vendorId) {
         return deliveryRepository.findByVendorId(vendorId);
     }
 
-    public List<ProductDelivery> getByUser(Long userId) {
-        return deliveryRepository.findByUser_Id(userId);
+
+    // vendor tracker with price + total
+    public List<VendorOrderTrackerResponse> getByVendor(Long vendorId) {
+        return deliveryRepository.findVendorOrdersWithPrice(vendorId);
     }
-}
+    // get deliveries of a user
+    public List<ProductDelivery> getByUser(Long userId) {
+        return deliveryRepository.findByUserId(userId);
+    }
+    }
