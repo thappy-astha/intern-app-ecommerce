@@ -44,7 +44,7 @@ import java.util.List;
         @Transient
         private Long pinCode;
 
-        private Long phoneNo;
+        private String phoneNo;
 
         private String gstNumber;
 
@@ -99,8 +99,8 @@ import java.util.List;
         public Long getPinCode() { return pinCode; }
         public void setPinCode(Long pinCode) { this.pinCode = pinCode; }
 
-        public Long getPhoneNo() { return phoneNo; }
-        public void setPhoneNo(Long phoneNo) { this.phoneNo = phoneNo; }
+        public String getPhoneNo() { return phoneNo; }
+        public void setPhoneNo(String phoneNo) { this.phoneNo = phoneNo; }
 
         public String getGstNumber() { return gstNumber; }
         public void setGstNumber(String gstNumber) { this.gstNumber = gstNumber; }

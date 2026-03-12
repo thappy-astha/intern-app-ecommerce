@@ -4,6 +4,7 @@ import com.intern.app.ecommerce.model.Address;
 import com.intern.app.ecommerce.model.Vendor;
 import com.intern.app.ecommerce.repository.AddressRepository;
 import com.intern.app.ecommerce.repository.VendorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,9 @@ import java.util.List;
 @Service
 public class VendorService {
 
+    @Autowired
     private final VendorRepository vendorRepository;
+
     private final AddressRepository addressRepository;
 
     public VendorService(VendorRepository vendorRepository,
@@ -21,23 +24,30 @@ public class VendorService {
         this.addressRepository = addressRepository;
     }
 
-    // ================= CREATE =================
-    public Vendor createVendor(Vendor vendor) {
 
+    public Vendor registerVendor(Vendor vendor) {
+        // Duplicate checks
+        if (vendorRepository.existsByEmail(vendor.getEmail())) {
+            throw new RuntimeException("This email is already registered");
+        }
+        if (vendor.getPhoneNo() != null && vendorRepository.existsByPhoneNo(vendor.getPhoneNo())) {
+            throw new RuntimeException("This phone number is already registered");
+        }
+
+        // Password check
         if (vendor.getPassword() == null || vendor.getConfirmPassword() == null) {
             throw new RuntimeException("Password and Confirm Password are required");
         }
-
         if (!vendor.getPassword().equals(vendor.getConfirmPassword())) {
             throw new RuntimeException("Password and Confirm Password do not match");
         }
 
         Vendor saved = vendorRepository.save(vendor);
-
         saveOrUpdateAddresses(saved, vendor);
-
         return mapAddressesToVendor(saved);
     }
+
+
 
     // ================= GET ALL =================
     public List<Vendor> getAllVendors() {

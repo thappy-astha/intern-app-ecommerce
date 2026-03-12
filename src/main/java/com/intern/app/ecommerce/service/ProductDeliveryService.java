@@ -5,7 +5,9 @@ import com.intern.app.ecommerce.model.*;
 import com.intern.app.ecommerce.repository.ProductDeliveryRepository;
 import com.intern.app.ecommerce.repository.ProductRepository;
 import com.intern.app.ecommerce.repository.VendorRepository;
+import com.intern.app.ecommerce.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,18 +18,22 @@ public class ProductDeliveryService {
     private final ProductDeliveryRepository deliveryRepository;
     private final ProductRepository productRepository;
     private final VendorRepository vendorRepository;
+    private final UserRepository userRepository;
 
     public ProductDeliveryService(ProductDeliveryRepository deliveryRepository,
                                   ProductRepository productRepository,
-                                  VendorRepository vendorRepository) {
+                                  VendorRepository vendorRepository,
+                                  UserRepository userRepository) {
         this.deliveryRepository = deliveryRepository;
         this.productRepository = productRepository;
         this.vendorRepository = vendorRepository;
+        this.userRepository = userRepository;
     }
 
     // create delivery when order placed
     public ProductDelivery createDelivery(Long productId,
                                           Long vendorId,
+                                          Long userId,
                                           Integer qty) {
 
         Product product = productRepository.findById(productId)
@@ -36,9 +42,14 @@ public class ProductDeliveryService {
         Vendor vendor = vendorRepository.findById(vendorId)
                 .orElseThrow(() -> new RuntimeException("Vendor not found"));
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+
         ProductDelivery delivery = new ProductDelivery();
         delivery.setProduct(product);
         delivery.setVendor(vendor);
+        delivery.setUser(user);
         delivery.setDeliveredQuantity(qty);
         delivery.setStatus(DeliveryStatus.PLACED);
         delivery.setCreatedAt(LocalDateTime.now());
@@ -84,8 +95,10 @@ public class ProductDeliveryService {
         return deliveryRepository.findByVendorId(vendorId);
     }
 
+
     // vendor tracker with price + total
     public List<VendorOrderTrackerResponse> getByVendor(Long vendorId) {
         return deliveryRepository.findVendorOrdersWithPrice(vendorId);
+
     }
 }
