@@ -14,7 +14,8 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
 
     List<ProductDelivery> findByVendorId(Long vendorId);
 
-
+    List<ProductDelivery> findByUserId(Long userId);
+    
     @Query("""
                 SELECT new com.intern.app.ecommerce.dto.VendorOrderTrackerResponse(
                     pd.id,

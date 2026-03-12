@@ -99,6 +99,9 @@ public class ProductDeliveryService {
     // vendor tracker with price + total
     public List<VendorOrderTrackerResponse> getByVendor(Long vendorId) {
         return deliveryRepository.findVendorOrdersWithPrice(vendorId);
-
     }
-}
+    // get deliveries of a user
+    public List<ProductDelivery> getByUser(Long userId) {
+        return deliveryRepository.findByUserId(userId);
+    }
+    }
