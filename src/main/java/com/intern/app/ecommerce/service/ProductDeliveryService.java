@@ -4,13 +4,18 @@ import com.intern.app.ecommerce.dto.VendorOrderTrackerResponse;
 import com.intern.app.ecommerce.model.*;
 import com.intern.app.ecommerce.repository.ProductDeliveryRepository;
 import com.intern.app.ecommerce.repository.ProductRepository;
-import com.intern.app.ecommerce.repository.VendorRepository;
 import com.intern.app.ecommerce.repository.UserRepository;
+import com.intern.app.ecommerce.repository.VendorRepository;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductDeliveryService {
@@ -34,7 +39,8 @@ public class ProductDeliveryService {
     public ProductDelivery createDelivery(Long productId,
                                           Long vendorId,
                                           Long userId,
-                                          Integer qty) {
+                                          Integer qty,
+                                          Long orderId) {
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
@@ -45,11 +51,11 @@ public class ProductDeliveryService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-
         ProductDelivery delivery = new ProductDelivery();
         delivery.setProduct(product);
         delivery.setVendor(vendor);
         delivery.setUser(user);
+        delivery.setOrderId(orderId);
         delivery.setDeliveredQuantity(qty);
         delivery.setStatus(DeliveryStatus.PLACED);
         delivery.setCreatedAt(LocalDateTime.now());
@@ -82,26 +88,46 @@ public class ProductDeliveryService {
             productRepository.save(product);
         }
 
-        return deliveryRepository.save(delivery);
+        ProductDelivery savedDelivery = deliveryRepository.save(delivery);
+
+        // sync status to payment gateway orders table
+        if (savedDelivery.getOrderId() != null) {
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+
+                String url = "http://localhost:8081/api/orders/update-status/" + savedDelivery.getOrderId();
+
+                Map<String, String> body = new HashMap<>();
+                body.put("status", status.name());
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
+                HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(body, headers);
+
+                restTemplate.put(url, requestEntity);
+
+            } catch (Exception e) {
+                throw new RuntimeException("Delivery updated, but failed to sync order status to payment DB: " + e.getMessage());
+            }
+        }
+
+        return savedDelivery;
     }
 
-    // get deliveries by product
     public List<ProductDelivery> getByProduct(Long productId) {
         return deliveryRepository.findByProductId(productId);
     }
 
-    // old vendor deliveries if needed elsewhere
     public List<ProductDelivery> getRawByVendor(Long vendorId) {
         return deliveryRepository.findByVendorId(vendorId);
     }
 
-
-    // vendor tracker with price + total
     public List<VendorOrderTrackerResponse> getByVendor(Long vendorId) {
         return deliveryRepository.findVendorOrdersWithPrice(vendorId);
     }
-    // get deliveries of a user
+
     public List<ProductDelivery> getByUser(Long userId) {
         return deliveryRepository.findByUserId(userId);
     }
-    }
+}

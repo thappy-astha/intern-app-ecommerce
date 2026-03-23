@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class VendorOrderTrackerResponse {
 
+    private Long orderId;
     private Long id;
     private String productName;
     private Integer deliveredQuantity;
@@ -15,13 +16,15 @@ public class VendorOrderTrackerResponse {
     private String status;
     private LocalDateTime updatedAt;
 
-    public VendorOrderTrackerResponse(Long id,
+    public VendorOrderTrackerResponse(Long orderId,
+                                      Long id,
                                       String productName,
                                       Integer deliveredQuantity,
                                       BigDecimal unitPrice,
                                       BigDecimal totalPrice,
                                       DeliveryStatus status,
                                       LocalDateTime updatedAt) {
+        this.orderId = orderId;
         this.id = id;
         this.productName = productName;
         this.deliveredQuantity = deliveredQuantity;
@@ -29,6 +32,10 @@ public class VendorOrderTrackerResponse {
         this.totalPrice = totalPrice;
         this.status = status != null ? status.name() : null;
         this.updatedAt = updatedAt;
+    }
+
+    public Long getOrderId() {
+        return orderId;
     }
 
     public Long getId() {

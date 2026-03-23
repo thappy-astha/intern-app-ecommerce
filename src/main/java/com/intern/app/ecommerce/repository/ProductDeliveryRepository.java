@@ -15,21 +15,22 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
     List<ProductDelivery> findByVendorId(Long vendorId);
 
     List<ProductDelivery> findByUserId(Long userId);
-    
+
     @Query("""
-                SELECT new com.intern.app.ecommerce.dto.VendorOrderTrackerResponse(
-                    pd.id,
-                    p.name,
-                    pd.deliveredQuantity,
-                    p.discountPrice,
-                    (p.discountPrice * pd.deliveredQuantity),
-                    pd.status,
-                    pd.updatedAt
-                )
-                FROM ProductDelivery pd
-                JOIN pd.product p
-                WHERE pd.vendor.id = :vendorId
-                ORDER BY pd.updatedAt DESC
+            SELECT new com.intern.app.ecommerce.dto.VendorOrderTrackerResponse(
+                pd.orderId,
+                pd.id,
+                p.name,
+                pd.deliveredQuantity,
+                p.discountPrice,
+                (p.discountPrice * pd.deliveredQuantity),
+                pd.status,
+                pd.updatedAt
+            )
+            FROM ProductDelivery pd
+            JOIN pd.product p
+            WHERE pd.vendor.id = :vendorId
+            ORDER BY pd.updatedAt DESC
             """)
     List<VendorOrderTrackerResponse> findVendorOrdersWithPrice(@Param("vendorId") Long vendorId);
 }

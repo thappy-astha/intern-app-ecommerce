@@ -22,9 +22,10 @@ public class ProductDeliveryController {
     public ProductDelivery create(@RequestParam Long productId,
                                   @RequestParam Long vendorId,
                                   @RequestParam Long userId,
-                                  @RequestParam Integer quantity) {
+                                  @RequestParam Integer quantity,
+                                  @RequestParam Long orderId) {
 
-        return deliveryService.createDelivery(productId, vendorId, userId, quantity);
+        return deliveryService.createDelivery(productId, vendorId, userId, quantity, orderId);
     }
 
     @PutMapping("/status")
@@ -35,22 +36,18 @@ public class ProductDeliveryController {
         );
     }
 
-    // get deliveries of a product
     @GetMapping("/product/{productId}")
     public List<ProductDelivery> getByProduct(@PathVariable Long productId) {
         return deliveryService.getByProduct(productId);
     }
 
-    // get deliveries of vendor with price and total price
     @GetMapping("/vendor/{vendorId}")
     public List<VendorOrderTrackerResponse> getByVendor(@PathVariable Long vendorId) {
         return deliveryService.getByVendor(vendorId);
     }
 
-    // get deliveries of a user
     @GetMapping("/user/{userId}")
     public List<ProductDelivery> getByUser(@PathVariable Long userId) {
         return deliveryService.getByUser(userId);
     }
-
 }
