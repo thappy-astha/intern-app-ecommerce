@@ -26,8 +26,6 @@ public class ProductController {
         this.imageRepository = imageRepository;
     }
 
-
-
     @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
@@ -38,17 +36,13 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
-
     @GetMapping("/images/product/{productId}")
-    public ResponseEntity<List<String>> getImagesByProductId(
-            @PathVariable long productId) {
-
+    public ResponseEntity<List<String>> getImagesByProductId(@PathVariable long productId) {
         return ResponseEntity.ok(productService.getImagesByProductId(productId));
     }
 
     @GetMapping("/image/{imageId}")
     public ResponseEntity<byte[]> getImage(@PathVariable long imageId) {
-
         ProductImage image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new RuntimeException("Image not found"));
 
@@ -57,13 +51,10 @@ public class ProductController {
                 .body(image.getImageData());
     }
 
-
-
     @GetMapping("/vendor/{vendorId}")
     public List<Product> getProductsByVendor(@PathVariable Long vendorId) {
         return productService.getProductsByVendor(vendorId);
     }
-
 
     @PostMapping(consumes = "multipart/form-data")
     public Product addProduct(
@@ -78,7 +69,6 @@ public class ProductController {
             @RequestParam String description,
             @RequestParam MultipartFile[] images
     ) throws Exception {
-
         return productService.saveProduct(
                 vendorId, name, category, sizes,
                 quantity, discount, originalPrice,
@@ -91,7 +81,6 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
     }
-
 
     @PutMapping(value = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<Product> updateProduct(
@@ -106,7 +95,6 @@ public class ProductController {
             @RequestParam String description,
             @RequestParam(required = false) MultipartFile[] images
     ) throws Exception {
-
         return ResponseEntity.ok(
                 productService.updateProduct(
                         id, name, category, sizes, quantity,
@@ -115,13 +103,6 @@ public class ProductController {
                 )
         );
     }
-
-
-
-
-
-
-
 
     @PatchMapping(value = "/{id}", consumes = "multipart/form-data")
     public ResponseEntity<Product> patchProduct(
@@ -136,12 +117,22 @@ public class ProductController {
             @RequestParam(required = false) String description,
             @RequestParam(required = false) MultipartFile[] images
     ) throws Exception {
-
         return ResponseEntity.ok(
-                productService.patchProduct(id, name, category, sizes,
+                productService.patchProduct(
+                        id, name, category, sizes,
                         quantity, discount, originalPrice,
-                        discountPrice, description, images)
+                        discountPrice, description, images
+                )
         );
     }
 
+    // CHANGED FROM PATCH TO POST
+    @PostMapping("/reduce-stock/{productId}")
+    public ResponseEntity<Product> reduceStock(
+            @PathVariable Long productId,
+            @RequestParam Integer quantity
+    ) {
+        Product updated = productService.reduceStock(productId, quantity);
+        return ResponseEntity.ok(updated);
+    }
 }
