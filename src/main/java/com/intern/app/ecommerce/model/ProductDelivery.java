@@ -23,6 +23,9 @@ public class ProductDelivery {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "order_id")
+    private Long orderId;
+
     private Integer deliveredQuantity;
 
     @Enumerated(EnumType.STRING)
@@ -31,31 +34,70 @@ public class ProductDelivery {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Product getProduct() { return product; }
-    public void setProduct(Product product) { this.product = product; }
+    public Product getProduct() {
+        return product;
+    }
 
-    public Vendor getVendor() { return vendor; }
-    public void setVendor(Vendor vendor) { this.vendor = vendor; }
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
-    public User getUser() {return user;}
-    public void setUser(User user) {this.user = user;}
+    public Vendor getVendor() {
+        return vendor;
+    }
 
-    public Integer getDeliveredQuantity() { return deliveredQuantity; }
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Integer getDeliveredQuantity() {
+        return deliveredQuantity;
+    }
+
     public void setDeliveredQuantity(Integer deliveredQuantity) {
         this.deliveredQuantity = deliveredQuantity;
     }
 
-    public DeliveryStatus getStatus() { return status; }
-    public void setStatus(DeliveryStatus status) { this.status = status; }
+    public DeliveryStatus getStatus() {
+        return status;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setStatus(DeliveryStatus status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
