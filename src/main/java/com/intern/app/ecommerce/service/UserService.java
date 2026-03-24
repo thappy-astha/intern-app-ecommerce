@@ -21,59 +21,60 @@ public class UserService {
         this.addressRepository = addressRepository;
     }
 
-    // ================= CREATE =================
-    @Transactional
-    public User createUser(User user) {
+    // ================= REGISTER =================
+    public User registerUser(User user) {
 
+        // duplicate checks
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already registered");
+        }
+
+        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+            throw new RuntimeException("Phone number already registered");
+        }
+
+        // password validation
         if (user.getPassword() == null || user.getConfirmPassword() == null) {
             throw new RuntimeException("Password and Confirm Password are required");
         }
 
         if (!user.getPassword().equals(user.getConfirmPassword())) {
-            throw new RuntimeException("Password and Confirm Password do not match");
+            throw new RuntimeException("Passwords do not match");
         }
 
-        User savedUser = userRepository.save(user);
+        User saved = userRepository.save(user);
 
-        // 🔹 Save address in Address table
-        Address addr = new Address();
-        addr.setUser(savedUser);
-        addr.setType("HOME");
-        addr.setLine1(user.getAddressL1());
-        addr.setLine2(user.getAddressL2());
-        addr.setLine3(user.getAddressL3());
-        addr.setPinCode(user.getPinCode());
+        saveOrUpdateAddress(saved, user);
 
-        addressRepository.save(addr);
-
-        return savedUser;
+        return mapAddressToUser(saved);
     }
 
-    // ================= READ =================
+    // ================= GET ALL =================
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+
+        List<User> users = userRepository.findAll();
+
+        users.forEach(this::mapAddressToUser);
+
+        return users;
     }
 
+    // ================= GET BY ID =================
     public User getUserById(Long id) {
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 🔹 Load address from Address table
-        Address addr = addressRepository.findByUserAndType(user, "HOME");
-        if (addr != null) {
-            user.setAddressL1(addr.getLine1());
-            user.setAddressL2(addr.getLine2());
-            user.setAddressL3(addr.getLine3());
-            user.setPinCode(addr.getPinCode());
-        }
-
-        return user;
+        return mapAddressToUser(user);
     }
 
+    // ================= DELETE =================
     public void deleteUser(Long id) {
+
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found");
         }
+
         userRepository.deleteById(id);
     }
 
@@ -83,29 +84,18 @@ public class UserService {
 
         User existingUser = getUserById(id);
 
-        if (updatedUser.getAddressL1() != null)
-            existingUser.setAddressL1(updatedUser.getAddressL1());
+        if (updatedUser.getFirstName() != null)
+            existingUser.setFirstName(updatedUser.getFirstName());
 
-        if (updatedUser.getAddressL2() != null)
-            existingUser.setAddressL2(updatedUser.getAddressL2());
-
-        if (updatedUser.getAddressL3() != null)
-            existingUser.setAddressL3(updatedUser.getAddressL3());
-
-        if (updatedUser.getPinCode() != null)
-            existingUser.setPinCode(updatedUser.getPinCode());
+        if (updatedUser.getLastName() != null)
+            existingUser.setLastName(updatedUser.getLastName());
 
         if (updatedUser.getPhoneNumber() != null)
             existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
 
         // password optional
-        if (updatedUser.getPassword() != null ||
+        if (updatedUser.getPassword() != null &&
                 updatedUser.getConfirmPassword() != null) {
-
-            if (updatedUser.getPassword() == null ||
-                    updatedUser.getConfirmPassword() == null) {
-                throw new RuntimeException("Password and Confirm Password required");
-            }
 
             if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
                 throw new RuntimeException("Password mismatch");
@@ -114,24 +104,11 @@ public class UserService {
             existingUser.setPassword(updatedUser.getPassword());
         }
 
-        User savedUser = userRepository.save(existingUser);
+        User saved = userRepository.save(existingUser);
 
-        // 🔹 Update Address table
-        Address addr = addressRepository.findByUserAndType(savedUser, "HOME");
-        if (addr == null) {
-            addr = new Address();
-            addr.setUser(savedUser);
-            addr.setType("HOME");
-        }
+        saveOrUpdateAddress(saved, updatedUser);
 
-        addr.setLine1(updatedUser.getAddressL1());
-        addr.setLine2(updatedUser.getAddressL2());
-        addr.setLine3(updatedUser.getAddressL3());
-        addr.setPinCode(updatedUser.getPinCode());
-
-        addressRepository.save(addr);
-
-        return savedUser;
+        return mapAddressToUser(saved);
     }
 
     // ================= PATCH =================
@@ -140,59 +117,71 @@ public class UserService {
 
         User existingUser = getUserById(id);
 
-        if (updatedUser.getAddressL1() != null)
-            existingUser.setAddressL1(updatedUser.getAddressL1());
+        if (updatedUser.getFirstName() != null)
+            existingUser.setFirstName(updatedUser.getFirstName());
 
-        if (updatedUser.getAddressL2() != null)
-            existingUser.setAddressL2(updatedUser.getAddressL2());
-
-        if (updatedUser.getAddressL3() != null)
-            existingUser.setAddressL3(updatedUser.getAddressL3());
-
-        if (updatedUser.getPinCode() != null)
-            existingUser.setPinCode(updatedUser.getPinCode());
+        if (updatedUser.getLastName() != null)
+            existingUser.setLastName(updatedUser.getLastName());
 
         if (updatedUser.getPhoneNumber() != null)
             existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
 
-        // Password patch
+        // password
         if (updatedUser.getPassword() != null || updatedUser.getConfirmPassword() != null) {
 
             if (updatedUser.getPassword() == null || updatedUser.getConfirmPassword() == null) {
-                throw new RuntimeException("Password and Confirm Password are required");
+                throw new RuntimeException("Password & Confirm Password required");
             }
 
             if (!updatedUser.getPassword().equals(updatedUser.getConfirmPassword())) {
-                throw new RuntimeException("Password and Confirm Password do not match");
+                throw new RuntimeException("Passwords do not match");
             }
 
             existingUser.setPassword(updatedUser.getPassword());
         }
 
-        User savedUser = userRepository.save(existingUser);
+        User saved = userRepository.save(existingUser);
 
-        // 🔹 Patch Address
-        Address addr = addressRepository.findByUserAndType(savedUser, "HOME");
-        if (addr == null) {
-            addr = new Address();
-            addr.setUser(savedUser);
-            addr.setType("HOME");
+        saveOrUpdateAddress(saved, updatedUser);
+
+        return mapAddressToUser(saved);
+    }
+
+    // ================= ADDRESS SAVE =================
+    private void saveOrUpdateAddress(User user, User src) {
+
+        if (src.getAddressL1() != null || src.getPinCode() != null) {
+
+            Address addr = addressRepository.findByUserAndType(user, "HOME");
+
+            if (addr == null) {
+                addr = new Address();
+                addr.setUser(user);
+                addr.setType("HOME");
+            }
+
+            addr.setLine1(src.getAddressL1());
+            addr.setLine2(src.getAddressL2());
+            addr.setLine3(src.getAddressL3());
+            addr.setPinCode(src.getPinCode());
+
+            addressRepository.save(addr);
+        }
+    }
+
+    // ================= ADDRESS MAP =================
+    private User mapAddressToUser(User user) {
+
+        Address addr = addressRepository.findByUserAndType(user, "HOME");
+
+        if (addr != null) {
+
+            user.setAddressL1(addr.getLine1());
+            user.setAddressL2(addr.getLine2());
+            user.setAddressL3(addr.getLine3());
+            user.setPinCode(addr.getPinCode());
         }
 
-        if (updatedUser.getAddressL1() != null)
-            addr.setLine1(updatedUser.getAddressL1());
-
-        if (updatedUser.getAddressL2() != null)
-            addr.setLine2(updatedUser.getAddressL2());
-
-        if (updatedUser.getAddressL3() != null)
-            addr.setLine3(updatedUser.getAddressL3());
-
-        if (updatedUser.getPinCode() != null)
-            addr.setPinCode(updatedUser.getPinCode());
-
-        addressRepository.save(addr);
-
-        return savedUser;
+        return user;
     }
 }

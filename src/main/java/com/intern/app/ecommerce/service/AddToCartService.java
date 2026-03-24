@@ -30,11 +30,21 @@ public class AddToCartService {
     //add to cart
     public AddToCartDetails addToCart(AddToCartRequest request) {
 
+        System.out.println("===== ADD TO CART DEBUG =====");
+        System.out.println("userId = " + request.getUserId());
+        System.out.println("productId = " + request.getProductId());
+        System.out.println("quantity = " + request.getQuantity());
+
+        System.out.println("All product ids in DB:");
+        productRepository.findAll().forEach(p ->
+                System.out.println("product id = " + p.getId() + ", name = " + p.getName())
+        );
+
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
 
         Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + request.getProductId()));
 
         double totalPrice = product.getDiscountPrice().doubleValue() * request.getQuantity();
 
@@ -47,8 +57,12 @@ public class AddToCartService {
         cart.setQuantity(request.getQuantity());
         cart.setPrice(totalPrice);
 
-        return cartRepository.save(cart);
+        AddToCartDetails saved = cartRepository.save(cart);
+        System.out.println("Saved cart id = " + saved.getId());
+
+        return saved;
     }
+
 
     //update the quantity
     public AddToCartDetails updateQuantity(UpdateCartRequest request) {

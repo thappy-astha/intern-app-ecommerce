@@ -1,6 +1,5 @@
 package com.intern.app.ecommerce.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -26,7 +25,6 @@ public class Product {
     @Column(name = "sizes")
     private String sizes;
 
-
     @Min(0)
     private Integer quantity;
 
@@ -43,6 +41,8 @@ public class Product {
     @Size(max = 500)
     private String description;
 
+    // NEW FIELD
+    private String status = "AVAILABLE";
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images;
@@ -56,12 +56,10 @@ public class Product {
     })
     private Vendor vendor;
 
-
-
     public Product() {}
 
-    public void setVendor(Vendor vendor) {this.vendor = vendor;}
-    public Vendor getVendor() {return vendor;}
+    public void setVendor(Vendor vendor) { this.vendor = vendor; }
+    public Vendor getVendor() { return vendor; }
 
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
@@ -92,4 +90,7 @@ public class Product {
 
     public List<ProductImage> getImages() { return images; }
     public void setImages(List<ProductImage> images) { this.images = images; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
