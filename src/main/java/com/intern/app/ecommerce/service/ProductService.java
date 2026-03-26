@@ -3,6 +3,7 @@ package com.intern.app.ecommerce.service;
 import com.intern.app.ecommerce.model.Product;
 import com.intern.app.ecommerce.model.ProductImage;
 import com.intern.app.ecommerce.model.Vendor;
+import com.intern.app.ecommerce.repository.ProductDeliveryRepository;
 import com.intern.app.ecommerce.repository.ProductImageRepository;
 import com.intern.app.ecommerce.repository.ProductRepository;
 import com.intern.app.ecommerce.repository.VendorRepository;
@@ -19,13 +20,16 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final VendorRepository vendorRepository;
+    private final ProductDeliveryRepository productDeliveryRepository;
 
     public ProductService(ProductRepository productRepository,
                           ProductImageRepository productImageRepository,
-                          VendorRepository vendorRepository) {
+                          VendorRepository vendorRepository,
+                          ProductDeliveryRepository productDeliveryRepository) {
         this.productRepository = productRepository;
         this.productImageRepository = productImageRepository;
         this.vendorRepository = vendorRepository;
+        this.productDeliveryRepository = productDeliveryRepository;
     }
 
     public List<Product> getAllProducts() {
@@ -42,7 +46,9 @@ public class ProductService {
     }
 
     public List<String> getImagesByProductId(long productId) {
+
         Product product = getProductById(productId);
+
         List<String> imageUrls = new ArrayList<>();
 
         if (product.getImages() != null) {
@@ -69,6 +75,7 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Vendor not found with id: " + vendorId));
 
         Product product = new Product();
+
         product.setName(name);
         product.setCategory(category);
         product.setSizes(sizes);
@@ -88,18 +95,25 @@ public class ProductService {
         Product savedProduct = productRepository.save(product);
 
         if (images != null) {
-            List<ProductImage> productImages = new ArrayList<>();
-            for (MultipartFile file : images) {
-                if (file != null && !file.isEmpty()) {
-                    ProductImage image = new ProductImage();
-                    image.setProduct(savedProduct);
 
+            List<ProductImage> productImages = new ArrayList<>();
+
+            for (MultipartFile file : images) {
+
+                if (file != null && !file.isEmpty()) {
+
+                    ProductImage image = new ProductImage();
+
+                    image.setProduct(savedProduct);
                     image.setContentType(file.getContentType());
                     image.setImageData(file.getBytes());
+
                     productImages.add(image);
                 }
             }
+
             productImageRepository.saveAll(productImages);
+
             savedProduct.setImages(productImages);
         }
 
@@ -137,23 +151,29 @@ public class ProductService {
         Product updatedProduct = productRepository.save(product);
 
         if (images != null && images.length > 0) {
+
             if (product.getImages() != null) {
-                product.getImages().clear();
+                productImageRepository.deleteAll(product.getImages());
             }
 
             List<ProductImage> newImages = new ArrayList<>();
+
             for (MultipartFile file : images) {
+
                 if (file != null && !file.isEmpty()) {
+
                     ProductImage image = new ProductImage();
+
                     image.setProduct(updatedProduct);
-                    //image.setFileName(file.getOriginalFilename());
                     image.setContentType(file.getContentType());
                     image.setImageData(file.getBytes());
+
                     newImages.add(image);
                 }
             }
 
             productImageRepository.saveAll(newImages);
+
             updatedProduct.setImages(newImages);
         }
 
@@ -183,6 +203,7 @@ public class ProductService {
         if (description != null) product.setDescription(description);
 
         Integer finalQty = product.getQuantity();
+
         if (finalQty != null && finalQty == 0) {
             product.setStatus("SOLDOUT");
         } else {
@@ -191,53 +212,42 @@ public class ProductService {
 
         Product patchedProduct = productRepository.save(product);
 
-        if (images != null && images.length > 0) {
-            List<ProductImage> newImages = new ArrayList<>();
-            for (MultipartFile file : images) {
-                if (file != null && !file.isEmpty()) {
-                    ProductImage image = new ProductImage();
-                    image.setProduct(patchedProduct);
-                   // image.setFileName(file.getOriginalFilename());
-                    image.setContentType(file.getContentType());
-                    image.setImageData(file.getBytes());
-                    newImages.add(image);
-                }
-            }
-
-            productImageRepository.saveAll(newImages);
-
-            List<ProductImage> existingImages = patchedProduct.getImages();
-            if (existingImages == null) {
-                existingImages = new ArrayList<>();
-            }
-            existingImages.addAll(newImages);
-            patchedProduct.setImages(existingImages);
-        }
-
         return patchedProduct;
     }
 
     public void deleteProduct(long id) {
+
         Product product = getProductById(id);
+
+        // delete delivery records first
+        productDeliveryRepository.deleteByProductId(id);
+
+        // delete product images
+        if (product.getImages() != null && !product.getImages().isEmpty()) {
+            productImageRepository.deleteAll(product.getImages());
+        }
+
+        // finally delete product
         productRepository.delete(product);
     }
 
-    // NEW METHOD
     public Product reduceStock(Long productId, Integer orderedQty) {
+
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: " + productId));
 
         int currentQty = product.getQuantity() != null ? product.getQuantity() : 0;
 
-        if (orderedQty == null || orderedQty <= 0) {
+        if (orderedQty <= 0) {
             throw new RuntimeException("Ordered quantity must be greater than 0");
         }
 
         if (orderedQty > currentQty) {
-            throw new RuntimeException("Not enough stock for product id: " + productId);
+            throw new RuntimeException("Not enough stock");
         }
 
         int newQty = currentQty - orderedQty;
+
         product.setQuantity(newQty);
 
         if (newQty == 0) {

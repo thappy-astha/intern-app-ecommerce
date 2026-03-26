@@ -2,7 +2,9 @@ package com.intern.app.ecommerce.repository;
 
 import com.intern.app.ecommerce.dto.VendorOrderTrackerResponse;
 import com.intern.app.ecommerce.model.ProductDelivery;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,6 +17,12 @@ public interface ProductDeliveryRepository extends JpaRepository<ProductDelivery
     List<ProductDelivery> findByVendorId(Long vendorId);
 
     List<ProductDelivery> findByUserId(Long userId);
+
+    // ⭐ DELETE DELIVERY RECORDS BY PRODUCT
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM ProductDelivery pd WHERE pd.product.id = :productId")
+    void deleteByProductId(@Param("productId") Long productId);
 
     @Query("""
             SELECT new com.intern.app.ecommerce.dto.VendorOrderTrackerResponse(
