@@ -1,45 +1,56 @@
-# Ecommerce Spring Boot Application
+🛒 E-Commerce Backend Application (Spring Boot)
 
-This is a beginner-friendly **Ecommerce backend application** built using **Spring Boot**, **REST APIs**, and **MySQL**.  
-The project demonstrates basic CRUD operations for **Users** and **Products** following a layered architecture.
+This is a backend application for an e-commerce system built using Java and Spring Boot. It provides RESTful APIs for managing users, products, cart, and orders.
 
----
+The project follows a clean layered architecture and demonstrates real-world backend development practices.
 
-## 🚀 Technologies Used
+🚀 Tech Stack
+Language: Java
+Framework: Spring Boot
+Database: MySQL
+ORM: Spring Data JPA (Hibernate)
+Build Tool: Maven
+API Testing: Postman
+Version Control: Git & GitHub
 
-- Java
-- Spring Boot
-- Spring Data JPA
-- Hibernate
-- MySQL
-- Maven
-- Git & GitHub
-- Postman (for API testing)
+📂 Project Structure
+src/main/java
+├── controller     # Handles HTTP requests
+├── service        # Business logic
+├── repository     # Database interaction
+├── model          # Entity classes
 
----
+⚙️ Features
+  🔐 User Authentication (Login & Registration)
+  🛍️ Product Management (CRUD operations)
+  🛒 Cart Functionality
+  📦 Order Management
+  🔄 RESTful API Design
+  🗄️ MySQL Database Integration
+  🧱 Layered Architecture (Controller → Service → Repository)
+  ⚠️ Global Exception Handling
 
-## 📂 Project Structure
+📡 API Endpoints (Sample)
+ 👤 User APIs
+   POST /users/register → Register user
+   GET /users/{id} → Get user details
+ 🛍️ Product APIs
+   POST /products → Add product
+   GET /products → Get all products
+   PUT /products/{id} → Update product
+   DELETE /products/{id} → Delete product
 
-src/main/java  
-├── controller  
-├── service  
-├── repository  
-├── model  
+🛠️ Setup Instructions
+ Clone the repository
+   git clone https://github.com/your-username/your-repo-name.git
 
----
 
-## ⚙️ Features
+📌 Future Improvements
+ JWT Authentication
+ Pagination & Sorting
+ API Documentation (Swagger)
+ Payment Gateway Integration
 
-- User Management (Create, Read)
-- Product Management (Create, Read, Update, Delete)
-- RESTful APIs
-- MySQL database integration
-- Clean layered architecture (Controller → Service → Repository)
-
----
-
-## 🛠️ Setup Instructions
-
-1. Clone the repository
-```bash
-git clone https://github.com/your-username/your-repo-name.git
+👩‍💻 Author
+Aastha Thapliyal
+LinkedIn:  https://www.linkedin.com/in/aastha-thapliyal-42825831b/ 
