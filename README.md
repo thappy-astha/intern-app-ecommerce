@@ -1,56 +1,79 @@
-##🛒 E-Commerce Backend Application (Spring Boot)
+## 🛒 E-Commerce Backend Application (Spring Boot)
 
-This is a backend application for an e-commerce system built using Java and Spring Boot. It provides RESTful APIs for managing users, products, cart, and orders.
+This is a backend application for an e-commerce system built using Java and Spring Boot.  
+It provides RESTful APIs for managing users, products, cart, and orders.
 
-The project follows a clean layered architecture and demonstrates real-world backend development practices.
+---
 
-##🚀 Tech Stack
--Language: Java
--Framework: Spring Boot
--Database: MySQL
--ORM: Spring Data JPA (Hibernate)
--Build Tool: Maven
--API Testing: Postman
--Version Control: Git & GitHub
+## 🚀 Tech Stack
 
-##📂 Project Structure
--src/main/java
--├── controller     # Handles HTTP requests
--├── service        # Business logic
--├── repository     # Database interaction
--├── model          # Entity classes
+- **Language:** Java  
+- **Framework:** Spring Boot  
+- **Database:** MySQL  
+- **ORM:** Spring Data JPA (Hibernate)  
+- **Build Tool:** Maven  
+- **API Testing:** Postman  
+- **Version Control:** Git & GitHub  
 
-##⚙️ Features
-  -🔐 User Authentication (Login & Registration)
-  -🛍️ Product Management (CRUD operations)
-  -🛒 Cart Functionality
-  -📦 Order Management
-  -🔄 RESTful API Design
-  -🗄️ MySQL Database Integration
-  -🧱 Layered Architecture (Controller → Service → Repository)
-  -⚠️ Global Exception Handling
+---
 
-##📡 API Endpoints (Sample)
- 👤 User APIs
-   POST /users/register → Register user
-   GET /users/{id} → Get user details
- 🛍️ Product APIs
-   POST /products → Add product
-   GET /products → Get all products
-   PUT /products/{id} → Update product
-   DELETE /products/{id} → Delete product
+## 📂 Project Structure
 
-##🛠️ Setup Instructions
- Clone the repository
-   git clone https://github.com/your-username/your-repo-name.git
+```plaintext
+src/main/java
+├── controller     # Handles HTTP requests
+├── service        # Business logic
+├── repository     # Database interaction
+├── model          # Entity classes
+```
 
+---
 
-##📌 Future Improvements
- JWT Authentication
- Pagination & Sorting
- API Documentation (Swagger)
- Payment Gateway Integration
+## ⚙️ Features
 
-##👩‍💻 Author
-Aastha Thapliyal
-LinkedIn:  https://www.linkedin.com/in/aastha-thapliyal-42825831b/ 
+- 🔐 User Authentication (Login & Registration)  
+- 🛍️ Product Management (Create, Read, Update, Delete)  
+- 🛒 Cart Functionality  
+- 📦 Order Management  
+- 🔄 RESTful API Design  
+- 🗄️ MySQL Database Integration  
+- 🧱 Layered Architecture (Controller → Service → Repository)  
+- ⚠️ Global Exception Handling  
+
+---
+
+## 📡 API Endpoints (Sample)
+
+### 👤 User APIs
+- `POST /users/register` → Register user  
+- `GET /users/{id}` → Get user details  
+
+### 🛍️ Product APIs
+- `POST /products` → Add product  
+- `GET /products` → Get all products  
+- `PUT /products/{id}` → Update product  
+- `DELETE /products/{id}` → Delete product  
+
+---
+
+## 🛠️ Setup Instructions
+
+1. Clone the repository  
+
+```bash
+git clone https://github.com/thappy-astha/intern-app-ecommerce.git
+```
+---
+
+## 📌 Future Improvements
+
+- JWT Authentication  
+- Pagination & Sorting  
+- API Documentation (Swagger)  
+- Payment Gateway Integration  
+
+---
+## 👩‍💻 Author
+**Aastha Thapliyal**
+- LinkedIn: https://www.linkedin.com/in/aastha-thapliyal-42825831b/  
+- GitHub: https://github.com/thappy-astha  
